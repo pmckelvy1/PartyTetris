@@ -1,9 +1,25 @@
 var Board = require('./board');
+Board.HEIGHT = 20;
+Board.WIDTH = 10;
+
+var Game_SPEED = 1500; // ms
 
 var TetrisGame = (window.TetrisGame ||  {});
 
 var View = function ($viewEl) {
-
+  this.board = new Board();
+  this.$view = $viewEl;
+  this.setupGrid(Board.WIDTH, Board.HEIGHT);
+  this.bindKeyEvents();
+  this.gameLoopMacro = setInterval(function() {
+    if (this.gameLoopMicro) {
+      clearInterval(this.gameLoopMicro);
+    }
+    this.gameStepMacro();
+    this.gameLoopMicro = setInterval(function () {
+      this.render();
+    }.bind(this), 60)
+  }.bind(this), Game_SPEED);
 };
 
 
@@ -13,10 +29,102 @@ var View = function ($viewEl) {
 // bindKeyEvents
 // handleKeyEvent
 // render
-// renderBricks
-// renderBrick(brick)
+// renderBlocks
+// renderBlock(brick)
+// renderHoldBlock
+// renderNextBlock
+// renderScore
 // setupGrid
 // stepMicro
 // stepMacro
 // speedUp
 // slowDown
+// gameStep
+
+View.prototype.gameStepMacro = function () {
+  this.board.step();
+  if (this.board.gameOver()) {
+    this.gameOver();
+  }
+};
+
+View.prototype.gameOver = function () {
+  clearInterval(this.gameLoopMicro);
+  clearInterval(this.gameLoopMacro);
+}
+
+View.prototype.setupGrid = function (width, height) {
+  var x, y, $ul, $li, id;
+  for (x = 0; x < width; x++) {
+    $ul = $("<ul>").addClass("column group");
+    for (y = 0; y < height; y++) {
+      $li = $("<li>").addClass("grid-point");
+      id = x * 100 + y;
+      $li.attr('id', id);
+      $ul.append($li);
+    }
+    this.$view.append($ul);
+  }
+};
+
+View.prototype.render = function () {
+  this.renderBlocks();
+};
+
+View.prototype.renderBlocks = function () {
+  this.$view.find(".block").removeClass();
+  this.$view.find(".block").addClass(".grid-point");
+  var gridId;
+  var gridPoint;
+  var klass;
+  for (var id in this.board.blocks) {
+    gridId = '#' + id;
+    klass = 'grid-point block ' + this.board.blocks[id].color;
+    this.$view.find(gridId).addClass(klass);
+  };
+  this.renderPlayBlock();
+};
+
+View.prototype.renderPlayBlock = function () {
+  this.board.playBlock.coords.forEach(function (coord) {
+    var id = coord[0] * 100 + coord[1];
+    var gridId = '#' + id;
+    var klass = 'grid-point block ' + this.board.playBlock.color;
+    this.$view.find(gridId).addClass(klass);
+  }.bind(this));
+};
+
+View.prototype.renderNextBlock = function () {
+
+};
+
+View.prototype.renderHoldBlock = function () {
+
+};
+
+View.prototype.bindKeyEvents = function () {
+  $(document).keydown(this.handleKeyEvent.bind(this));
+};
+
+View.prototype.handleKeyEvent = function (e) {
+  switch(e.which) {
+    case 38: //up = rotate
+      this.board.playBlock.turn();
+    break;
+    case 39: //right = move right
+      this.board.playBlock.move([1,0]);
+    break;
+    case 40: //down = land
+      // SPEED UP GAME
+    break;
+    case 37: //left = move left
+      this.board.playBlock.move([-1,0]);
+    break;
+    case 32: //spacebar = hold block
+      // SWAP HOLDBLOCK AND PLAYBLOCK
+    default:
+    return;
+  }
+};
+
+module.exports = View;

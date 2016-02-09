@@ -1,0 +1,51 @@
+body, ul, li, p, h1,
+h2, div, span, figure {
+  color: black;
+  background: transparent;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+ul {
+  list-style: none;
+}
+
+.gridpoint {
+  background: yellow;
+}
+
+.tetris-game {
+  display: block;
+  margin: auto;
+  height: 1000px;
+  width: 500px;
+}
+
+.block {
+  height: 50px;
+  width: 50px;
+  display: block;
+  background: red;
+}
+
+.column {
+  width: 50px;
+  height: 1000px;
+  display: block;
+  float: left;
+}
+
+.group:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.red {
+  background: red;
+}
+
+.blue {
+  background: blue;
+}
