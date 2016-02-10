@@ -14,27 +14,27 @@ ul {
 .grid-point {
   display: block;
   background: yellow;
-  height: 50px;
-  width: 50px;
+  height: 25px;
+  width: 25px;
 }
 
 .tetris-game {
   display: block;
   margin: auto;
-  height: 1000px;
-  width: 500px;
+  height: 500px;
+  width: 250px;
 }
 
 .block {
-  height: 50px;
-  width: 50px;
+  height: 25px;
+  width: 25px;
   display: block;
   background: red;
 }
 
 .column {
-  width: 50px;
-  height: 1000px;
+  width: 25px;
+  height: 500px;
   display: block;
   float: left;
 }

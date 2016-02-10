@@ -29,7 +29,7 @@ Board.prototype.init = function () {
 // willLand
 
 Board.prototype.step = function () {
-  if (this.canDropOne()) {
+  if (this.canDropOne(this.playBlock)) {
     this.playBlock.dropOne();
   } else {
     this.spawnBlock();
@@ -44,8 +44,8 @@ Board.prototype.canSpawnBlock = function () {
   var testBlock = $.extend({}, this.nextBlock);
   testBlock.putInPlay();
   var canSpawnBlock = true;
-  testBlock.move([0,1]);
-  if (!this.canDropOne()) {
+  testBlock.move([0,-1]);
+  if (!this.canDropOne(testBlock)) {
     canSpawnBlock = false;
   }
   return canSpawnBlock;
@@ -73,9 +73,9 @@ Board.prototype.deleteBlock = function (coord) {
   delete this.blocks[id];
 };
 
-Board.prototype.canDropOne = function () {
+Board.prototype.canDropOne = function (block) {
   var canDropOne = true;
-  var testCoords = this.playBlock.coords.map(function(coord) {
+  var testCoords = block.coords.map(function(coord) {
     return coord.slice();
   });
   testCoords = Coords.moveCoords(testCoords, [0, 1]);

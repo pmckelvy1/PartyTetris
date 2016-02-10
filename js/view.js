@@ -35,23 +35,38 @@ var View = function ($viewEl) {
 // slowDown
 // gameStep
 View.prototype.gameLoopMacro = function() {
-  this.stepCounter += 1;
-  if (this.stepCounter >= 50) {
-    this.gameStepMacro();
-    this.stepCounter = 0;
-  }
-  this.render();
-  if (!this.gameOverBool) {
-    window.requestAnimationFrame(this.gameLoopMacro.bind(this));
-  }
+  this.int = setInterval(function () {
+    console.log('loop');
+    this.stepCounter += 1;
+    if (this.stepCounter >= 5) {
+      this.gameStepMacro();
+      this.stepCounter = 0;
+    }
+    this.render();
+    if (this.gameOverBool) {
+      clearInterval(this.int);
+    }
+  }.bind(this), 60)
 };
+// View.prototype.gameLoopMacro = function() {
+//   this.stepCounter += 1;
+//   if (this.stepCounter >= 50) {
+//     this.gameStepMacro();
+//     this.stepCounter = 0;
+//   }
+//   this.render();
+//   if (!this.gameOverBool) {
+//     window.requestAnimationFrame(this.gameLoopMacro.bind(this));
+//   }
+// };
 
 View.prototype.gameStepMacro = function () {
-  this.board.step();
   if (this.board.gameOver()) {
     console.log('gameover');
     debugger
     this.gameOver();
+  } else {
+    this.board.step();
   }
 };
 
@@ -78,7 +93,7 @@ View.prototype.render = function () {
 };
 
 View.prototype.renderBlocks = function () {
-  $().removeClass();
+  $('.block').removeClass('block');
   var gridId;
   var gridPoint;
   var klass;

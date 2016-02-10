@@ -93,23 +93,38 @@
 	// slowDown
 	// gameStep
 	View.prototype.gameLoopMacro = function() {
-	  this.stepCounter += 1;
-	  if (this.stepCounter >= 50) {
-	    this.gameStepMacro();
-	    this.stepCounter = 0;
-	  }
-	  this.render();
-	  if (!this.gameOverBool) {
-	    window.requestAnimationFrame(this.gameLoopMacro.bind(this));
-	  }
+	  this.int = setInterval(function () {
+	    console.log('loop');
+	    this.stepCounter += 1;
+	    if (this.stepCounter >= 5) {
+	      this.gameStepMacro();
+	      this.stepCounter = 0;
+	    }
+	    this.render();
+	    if (this.gameOverBool) {
+	      clearInterval(this.int);
+	    }
+	  }.bind(this), 60)
 	};
+	// View.prototype.gameLoopMacro = function() {
+	//   this.stepCounter += 1;
+	//   if (this.stepCounter >= 50) {
+	//     this.gameStepMacro();
+	//     this.stepCounter = 0;
+	//   }
+	//   this.render();
+	//   if (!this.gameOverBool) {
+	//     window.requestAnimationFrame(this.gameLoopMacro.bind(this));
+	//   }
+	// };
 	
 	View.prototype.gameStepMacro = function () {
-	  this.board.step();
 	  if (this.board.gameOver()) {
 	    console.log('gameover');
 	    debugger
 	    this.gameOver();
+	  } else {
+	    this.board.step();
 	  }
 	};
 	
@@ -136,7 +151,7 @@
 	};
 	
 	View.prototype.renderBlocks = function () {
-	  $().removeClass();
+	  $('.block').removeClass('block');
 	  var gridId;
 	  var gridPoint;
 	  var klass;
@@ -228,7 +243,7 @@
 	// willLand
 	
 	Board.prototype.step = function () {
-	  if (this.canDropOne()) {
+	  if (this.canDropOne(this.playBlock)) {
 	    this.playBlock.dropOne();
 	  } else {
 	    this.spawnBlock();
@@ -243,8 +258,8 @@
 	  var testBlock = $.extend({}, this.nextBlock);
 	  testBlock.putInPlay();
 	  var canSpawnBlock = true;
-	  testBlock.move([0,1]);
-	  if (!this.canDropOne()) {
+	  testBlock.move([0,-1]);
+	  if (!this.canDropOne(testBlock)) {
 	    canSpawnBlock = false;
 	  }
 	  return canSpawnBlock;
@@ -272,9 +287,9 @@
 	  delete this.blocks[id];
 	};
 	
-	Board.prototype.canDropOne = function () {
+	Board.prototype.canDropOne = function (block) {
 	  var canDropOne = true;
-	  var testCoords = this.playBlock.coords.map(function(coord) {
+	  var testCoords = block.coords.map(function(coord) {
 	    return coord.slice();
 	  });
 	  testCoords = Coords.moveCoords(testCoords, [0, 1]);
@@ -418,6 +433,8 @@
 	inherits(Tetris.El, Tetris.Block);
 	inherits(Tetris.Le, Tetris.Block);
 	inherits(Tetris.Line, Tetris.Block);
+	
+	Tetris.Square.prototype.turn = function () {};
 	
 	Block.BLOCKS = [Square, Zig, Zag, Tee, El, Le, Line];
 	

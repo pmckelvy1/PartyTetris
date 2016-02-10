@@ -115,6 +115,8 @@ inherits(Tetris.El, Tetris.Block);
 inherits(Tetris.Le, Tetris.Block);
 inherits(Tetris.Line, Tetris.Block);
 
+Tetris.Square.prototype.turn = function () {};
+
 Block.BLOCKS = [Square, Zig, Zag, Tee, El, Le, Line];
 
 
