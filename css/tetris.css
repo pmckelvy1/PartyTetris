@@ -89,3 +89,44 @@ ul {
   border-radius: 5px;
   background: black;
 }
+
+.color-flow {
+  animation:colorflow 5s linear infinite;
+  -moz-animation:colorflow 5s linear infinite; /* Firefox */
+  -webkit-animation:colorflow 5s linear infinite; /* Safari and Chrome */
+  -o-animation:colorflow 5s linear infinite; /* Opera */
+}
+
+@keyframes colorflow {
+  0%,100%   {background:rgb(110, 110, 245);}
+  16.666666%  {background:rgb(110, 245, 245);}
+  33.333333%  {background:rgb(110, 245, 110);}
+  50% {background:rgb(245, 245, 110);}
+  66.666666% {background:rgb(245, 110, 110);}
+  83.333333% {background:rgb(245, 110, 245);}
+}
+
+@-moz-keyframes colorflow /* Firefox */ {
+  0%,100%   {background:rgb(110, 110, 245);}
+  16.666666%  {background:rgb(110, 245, 245);}
+  33.333333%  {background:rgb(110, 245, 110);}
+  50% {background:rgb(245, 245, 110);}
+  66.666666% {background:rgb(245, 110, 110);}
+  83.333333% {background:rgb(245, 110, 245);}
+}
+
+@-webkit-keyframes colorflow /* Safari and Chrome */ {
+  0%   {background:red;}
+  25%  {background:yellow;}
+  50%  {background:blue;}
+  100% {background:green;}
+}
+
+@-o-keyframes colorflow /* Opera */ {
+  0%,100%   {background:rgb(110, 110, 245);}
+  16.666666%  {background:rgb(110, 245, 245);}
+  33.333333%  {background:rgb(110, 245, 110);}
+  50% {background:rgb(245, 245, 110);}
+  66.666666% {background:rgb(245, 110, 110);}
+  83.333333% {background:rgb(245, 110, 245);}
+}
