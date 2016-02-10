@@ -10,6 +10,8 @@ h2, div, span, figure {
 
 ul {
   list-style: none;
+  display: block;
+  float: left;
 }
 
 .grid-point {
@@ -28,7 +30,7 @@ ul {
 .tetris-game {
   display: block;
   float: left;
-  margin-left: 50px;
+  margin-left: 25px;
   height: 500px;
   width: 250px;
 }
@@ -73,7 +75,7 @@ ul {
 .next-block {
   display: block;
   height: 150px;
-  width: 125px;
+  width: 150px;
   border-radius: 5px;
   background: black;
   margin-bottom: 50px;
@@ -83,7 +85,7 @@ ul {
   display: block;
   float: left;
   height: 150px;
-  width: 125px;
+  width: 150px;
   border-radius: 5px;
   background: black;
 }

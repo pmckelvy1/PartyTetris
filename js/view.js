@@ -9,7 +9,10 @@ var TetrisGame = (window.TetrisGame ||  {});
 var View = function ($viewEl) {
   this.board = new Board();
   this.$view = $viewEl;
+  this.$nextBlock = $('.next-block');
+  this.$heldBlock = $('.held-block');
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
+  this.setupBoxes(6, 6);
   this.bindKeyEvents();
   this.gameOverBool = false;
   this.stepCounter = 0;
@@ -38,7 +41,6 @@ var View = function ($viewEl) {
 
 View.prototype.gameLoopMacro = function() {
   this.int = setInterval(function () {
-    console.log('loop');
     this.stepCounter += 1;
     if (this.stepCounter >= 5) {
       this.gameStepMacro();
@@ -90,6 +92,26 @@ View.prototype.setupGrid = function (width, height) {
   }
 };
 
+View.prototype.setupBoxes = function (width, height) {
+  var x, y, $ul, $li, id;
+  for (x = 2; x < width + 2; x++) {
+    $ul1 = $("<ul>").addClass("group");
+    $ul2 = $("<ul>").addClass("group");
+    for (y = 0; y < height; y++) {
+      $li1 = $("<li>").addClass("grid-point");
+      $li2 = $("<li>").addClass("grid-point");
+      id1 = 'nb' + (y * 100 + x);
+      id2 = 'hb' + (y * 100 + x);
+      $li1.attr('id', id1);
+      $li2.attr('id', id2);
+      $ul1.append($li1);
+      $ul2.append($li2);
+    }
+    this.$nextBlock.append($ul1);
+    this.$heldBlock.append($ul2);
+  }
+};
+
 View.prototype.render = function () {
   this.renderBlocks();
 };
@@ -106,6 +128,7 @@ View.prototype.renderBlocks = function () {
     this.$view.find(gridId).addClass(klass).css('background', this.board.blocks[id].color);
   };
   this.renderPlayBlock();
+  this.renderNextBlock();
 };
 
 View.prototype.renderPlayBlock = function () {
@@ -118,7 +141,12 @@ View.prototype.renderPlayBlock = function () {
 };
 
 View.prototype.renderNextBlock = function () {
-
+  var id;
+  this.$nextBlock.find('li').css('background', '#000');
+  this.board.nextBlock.spawnCoords.forEach(function (coord) {
+    id = '#nb' + (coord[1] * 100 + coord[0]);
+    this.$nextBlock.find(id).css('background', this.board.nextBlock.color);
+  }.bind(this));
 };
 
 View.prototype.renderHoldBlock = function () {

@@ -11,7 +11,7 @@ var Board = function () {
 };
 
 Board.prototype.init = function () {
-  var seed = Math.round(Math.random() * 6.9999999);
+  var seed = Math.floor(Math.random() * 6.9999999);
   var nextBlock = Block.BLOCKS[seed];
   var color = Util.selectRandomColor();
   this.nextBlock = new nextBlock(color);
