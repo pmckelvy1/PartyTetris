@@ -94,13 +94,14 @@ View.prototype.render = function () {
 
 View.prototype.renderBlocks = function () {
   $('.block').removeClass('block');
+  $('.grid-point').css('background', '#000');
   var gridId;
   var gridPoint;
   var klass;
   for (var id in this.board.blocks) {
     gridId = '#' + id;
-    klass = 'grid-point block ' + this.board.blocks[id].color;
-    this.$view.find(gridId).addClass(klass);
+    klass = 'block';
+    this.$view.find(gridId).addClass(klass).css('background', this.board.blocks[id].color);
   };
   this.renderPlayBlock();
 };
@@ -109,8 +110,8 @@ View.prototype.renderPlayBlock = function () {
   this.board.playBlock.coords.forEach(function (coord) {
     var id = coord[0] * 100 + coord[1];
     var gridId = '#' + id;
-    var klass = 'grid-point block ' + this.board.playBlock.color;
-    this.$view.find(gridId).addClass(klass);
+    var klass = 'grid-point block';
+    this.$view.find(gridId).addClass(klass).css('background', this.board.playBlock.color);
   }.bind(this));
 };
 

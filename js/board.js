@@ -1,5 +1,6 @@
 var Block = require('./blocks');
 var Coords = require('./coords');
+var Util = require('./util');
 
 var Board = function () {
   this.playBlock = {};
@@ -12,11 +13,13 @@ var Board = function () {
 Board.prototype.init = function () {
   var seed = Math.round(Math.random() * 7);
   var nextBlock = Block.BLOCKS[seed];
-  this.nextBlock = new nextBlock('#0BF');
+  var color = Util.selectRandomColor();
+  this.nextBlock = new nextBlock(color);
 
   seed = Math.round(Math.random() * 6);
   nextBlock = Block.BLOCKS[seed];
-  this.playBlock = new nextBlock('#0BF');
+  color = Util.selectRandomColor();
+  this.playBlock = new nextBlock(color);
   this.playBlock.putInPlay();
 };
 
@@ -57,7 +60,8 @@ Board.prototype.spawnBlock = function () {
   this.storeBlock();
   this.playBlock = $.extend({}, this.nextBlock);
   this.playBlock.putInPlay();
-  this.nextBlock = new nextBlock();
+  var color = Util.selectRandomColor();
+  this.nextBlock = new nextBlock(color);
 };
 
 Board.prototype.storeBlock = function () {

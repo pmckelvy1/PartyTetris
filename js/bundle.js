@@ -152,13 +152,14 @@
 	
 	View.prototype.renderBlocks = function () {
 	  $('.block').removeClass('block');
+	  $('.grid-point').css('background', '#000');
 	  var gridId;
 	  var gridPoint;
 	  var klass;
 	  for (var id in this.board.blocks) {
 	    gridId = '#' + id;
-	    klass = 'grid-point block ' + this.board.blocks[id].color;
-	    this.$view.find(gridId).addClass(klass);
+	    klass = 'block';
+	    this.$view.find(gridId).addClass(klass).css('background', this.board.blocks[id].color);
 	  };
 	  this.renderPlayBlock();
 	};
@@ -167,8 +168,8 @@
 	  this.board.playBlock.coords.forEach(function (coord) {
 	    var id = coord[0] * 100 + coord[1];
 	    var gridId = '#' + id;
-	    var klass = 'grid-point block ' + this.board.playBlock.color;
-	    this.$view.find(gridId).addClass(klass);
+	    var klass = 'grid-point block';
+	    this.$view.find(gridId).addClass(klass).css('background', this.board.playBlock.color);
 	  }.bind(this));
 	};
 	
@@ -214,6 +215,7 @@
 
 	var Block = __webpack_require__(3);
 	var Coords = __webpack_require__(4);
+	var Util = __webpack_require__(5);
 	
 	var Board = function () {
 	  this.playBlock = {};
@@ -226,11 +228,13 @@
 	Board.prototype.init = function () {
 	  var seed = Math.round(Math.random() * 7);
 	  var nextBlock = Block.BLOCKS[seed];
-	  this.nextBlock = new nextBlock('#0BF');
+	  var color = Util.selectRandomColor();
+	  this.nextBlock = new nextBlock(color);
 	
 	  seed = Math.round(Math.random() * 6);
 	  nextBlock = Block.BLOCKS[seed];
-	  this.playBlock = new nextBlock('#0BF');
+	  color = Util.selectRandomColor();
+	  this.playBlock = new nextBlock(color);
 	  this.playBlock.putInPlay();
 	};
 	
@@ -271,7 +275,8 @@
 	  this.storeBlock();
 	  this.playBlock = $.extend({}, this.nextBlock);
 	  this.playBlock.putInPlay();
-	  this.nextBlock = new nextBlock();
+	  var color = Util.selectRandomColor();
+	  this.nextBlock = new nextBlock(color);
 	};
 	
 	Board.prototype.storeBlock = function () {
@@ -519,6 +524,43 @@
 	};
 	
 	module.exports = Coords;
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	var Util = {
+	  selectRandomColor: function () {
+	    var x, y, z;
+	    var color;
+	    var variable = Math.floor(Math.random() * 135) + 110;
+	    var choose = Math.floor(Math.random() * 5.9999999999);
+	    switch (choose) {
+	      case 0:
+	        var color = 'rgb(110, 245, ' + variable + ')';
+	        break;
+	      case 1:
+	        var color = 'rgb(245, 110, ' + variable + ')';
+	        break;
+	      case 2:
+	        var color = 'rgb(110, ' + variable + ', 245)';
+	        break;
+	      case 3:
+	        var color = 'rgb(245, ' + variable + ', 110)';
+	        break;
+	      case 4:
+	        var color = 'rgb(' + variable + ', 110, 245)';
+	        break;
+	      case 5:
+	        var color = 'rgb(' + variable + ', 245, 110)';
+	        break;
+	    }
+	    return color;
+	  }
+	};
+	
+	module.exports = Util;
 
 
 /***/ }
