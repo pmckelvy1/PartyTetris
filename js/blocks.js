@@ -36,8 +36,36 @@ Block.prototype.turn = function () {
 };
 
 Block.prototype.putInPlay = function () {
-  this.coords = this.spawnCoords;
-}
+  this.coords = [];
+  this.spawnCoords.forEach(function(coord) {
+    this.coords.push(coord.slice());
+  }.bind(this));
+};
+
+Block.prototype.yMovement = function () {
+  var lowest = 0;
+  this.coords.forEach(function (coord) {
+    if (coord[1] > lowest) {
+      lowest = coord[1];
+    }
+  });
+  return lowest - 3;
+};
+
+Block.prototype.xMovement = function () {
+  var leftest = 9;
+  this.coords.forEach(function (coord) {
+    if (coord[0] < leftest) {
+      leftest = coord[0];
+    }
+  });
+  if (leftest === 7) {
+    leftest -= 1;
+  } else if (leftest === 0) {
+    leftest += 1;
+  }
+  return leftest - 4;
+};
 
 // INHERITS FUNCITON
 var inherits = function (subClass, superClass) {

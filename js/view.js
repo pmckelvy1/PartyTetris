@@ -10,7 +10,7 @@ var View = function ($viewEl) {
   this.board = new Board();
   this.$view = $viewEl;
   this.$nextBlock = $('.next-block');
-  this.$heldBlock = $('.held-block');
+  this.$holdBlock = $('.hold-block');
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
   this.setupBoxes(6, 6);
   this.bindKeyEvents();
@@ -108,7 +108,7 @@ View.prototype.setupBoxes = function (width, height) {
       $ul2.append($li2);
     }
     this.$nextBlock.append($ul1);
-    this.$heldBlock.append($ul2);
+    this.$holdBlock.append($ul2);
   }
 };
 
@@ -129,6 +129,7 @@ View.prototype.renderBlocks = function () {
   };
   this.renderPlayBlock();
   this.renderNextBlock();
+  this.renderHoldBlock();
 };
 
 View.prototype.renderPlayBlock = function () {
@@ -150,7 +151,12 @@ View.prototype.renderNextBlock = function () {
 };
 
 View.prototype.renderHoldBlock = function () {
-
+  var id;
+  this.$holdBlock.find('li').css('background', '#000');
+  this.board.holdBlock.spawnCoords.forEach(function (coord) {
+    id = '#hb' + (coord[1] * 100 + coord[0]);
+    this.$holdBlock.find(id).css('background', this.board.holdBlock.color);
+  }.bind(this));
 };
 
 View.prototype.bindKeyEvents = function () {
@@ -172,7 +178,7 @@ View.prototype.handleKeyEvent = function (e) {
       this.board.move([-1,0]);
     break;
     case 32: //spacebar = hold block
-      // SWAP HOLDBLOCK AND PLAYBLOCK
+      this.board.swapBlocks();
     default:
     return;
   }

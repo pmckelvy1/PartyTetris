@@ -68,7 +68,7 @@
 	  this.board = new Board();
 	  this.$view = $viewEl;
 	  this.$nextBlock = $('.next-block');
-	  this.$heldBlock = $('.held-block');
+	  this.$holdBlock = $('.hold-block');
 	  this.setupGrid(Board.WIDTH, Board.HEIGHT);
 	  this.setupBoxes(6, 6);
 	  this.bindKeyEvents();
@@ -166,7 +166,7 @@
 	      $ul2.append($li2);
 	    }
 	    this.$nextBlock.append($ul1);
-	    this.$heldBlock.append($ul2);
+	    this.$holdBlock.append($ul2);
 	  }
 	};
 	
@@ -187,6 +187,7 @@
 	  };
 	  this.renderPlayBlock();
 	  this.renderNextBlock();
+	  this.renderHoldBlock();
 	};
 	
 	View.prototype.renderPlayBlock = function () {
@@ -208,7 +209,12 @@
 	};
 	
 	View.prototype.renderHoldBlock = function () {
-	
+	  var id;
+	  this.$holdBlock.find('li').css('background', '#000');
+	  this.board.holdBlock.spawnCoords.forEach(function (coord) {
+	    id = '#hb' + (coord[1] * 100 + coord[0]);
+	    this.$holdBlock.find(id).css('background', this.board.holdBlock.color);
+	  }.bind(this));
 	};
 	
 	View.prototype.bindKeyEvents = function () {
@@ -230,7 +236,7 @@
 	      this.board.move([-1,0]);
 	    break;
 	    case 32: //spacebar = hold block
-	      // SWAP HOLDBLOCK AND PLAYBLOCK
+	      this.board.swapBlocks();
 	    default:
 	    return;
 	  }
@@ -258,8 +264,12 @@
 	Board.prototype.init = function () {
 	  var seed = Math.floor(Math.random() * 6.9999999);
 	  var nextBlock = Block.BLOCKS[seed];
+	
 	  var color = Util.selectRandomColor();
 	  this.nextBlock = new nextBlock(color);
+	
+	  var color = Util.selectRandomColor();
+	  this.holdBlock = new nextBlock(color);
 	
 	  seed = Math.floor(Math.random() * 6.9999999);
 	  nextBlock = Block.BLOCKS[seed];
@@ -318,6 +328,19 @@
 	    id = coord[0] * 100 + coord[1];
 	    this.blocks[id] = { coord: coord, color: this.playBlock.color };
 	  }.bind(this));
+	};
+	
+	Board.prototype.swapBlocks = function () {
+	  var temp = this.playBlock;
+	  var yMovement = this.playBlock.yMovement();
+	  var xMovement = this.playBlock.xMovement();
+	  this.playBlock = this.holdBlock;
+	  this.holdBlock = temp;
+	  this.playBlock.putInPlay();
+	  this.playBlock.coords.forEach(function(coord) {
+	    coord[0] += xMovement;
+	    coord[1] += yMovement;
+	  });
 	};
 	
 	Board.prototype.deleteBlock = function (coord) {
@@ -474,8 +497,36 @@
 	};
 	
 	Block.prototype.putInPlay = function () {
-	  this.coords = this.spawnCoords;
-	}
+	  this.coords = [];
+	  this.spawnCoords.forEach(function(coord) {
+	    this.coords.push(coord.slice());
+	  }.bind(this));
+	};
+	
+	Block.prototype.yMovement = function () {
+	  var lowest = 0;
+	  this.coords.forEach(function (coord) {
+	    if (coord[1] > lowest) {
+	      lowest = coord[1];
+	    }
+	  });
+	  return lowest - 3;
+	};
+	
+	Block.prototype.xMovement = function () {
+	  var leftest = 9;
+	  this.coords.forEach(function (coord) {
+	    if (coord[0] < leftest) {
+	      leftest = coord[0];
+	    }
+	  });
+	  if (leftest === 7) {
+	    leftest -= 1;
+	  } else if (leftest === 0) {
+	    leftest += 1;
+	  }
+	  return leftest - 4;
+	};
 	
 	// INHERITS FUNCITON
 	var inherits = function (subClass, superClass) {

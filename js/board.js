@@ -13,8 +13,12 @@ var Board = function () {
 Board.prototype.init = function () {
   var seed = Math.floor(Math.random() * 6.9999999);
   var nextBlock = Block.BLOCKS[seed];
+
   var color = Util.selectRandomColor();
   this.nextBlock = new nextBlock(color);
+
+  var color = Util.selectRandomColor();
+  this.holdBlock = new nextBlock(color);
 
   seed = Math.floor(Math.random() * 6.9999999);
   nextBlock = Block.BLOCKS[seed];
@@ -73,6 +77,19 @@ Board.prototype.storeBlock = function () {
     id = coord[0] * 100 + coord[1];
     this.blocks[id] = { coord: coord, color: this.playBlock.color };
   }.bind(this));
+};
+
+Board.prototype.swapBlocks = function () {
+  var temp = this.playBlock;
+  var yMovement = this.playBlock.yMovement();
+  var xMovement = this.playBlock.xMovement();
+  this.playBlock = this.holdBlock;
+  this.holdBlock = temp;
+  this.playBlock.putInPlay();
+  this.playBlock.coords.forEach(function(coord) {
+    coord[0] += xMovement;
+    coord[1] += yMovement;
+  });
 };
 
 Board.prototype.deleteBlock = function (coord) {
