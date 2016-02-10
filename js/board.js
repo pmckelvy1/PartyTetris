@@ -4,15 +4,16 @@ var TetrisUtil = require('./util');
 var Util = new TetrisUtil();
 
 var Board = function () {
-  this.playBlock = {};
-  this.holdBlock = {};
-  this.nextBlock = {};
-  this.blocks = {};
   this.init();
 };
 
 Board.prototype.init = function () {
   this.score = 0;
+  this.blocks = {};
+  this.playBlock = {};
+  this.holdBlock = {};
+  this.nextBlock = {};
+
   var seed = Math.floor(Math.random() * 6.9999999);
   var nextBlock = Block.BLOCKS[seed];
 

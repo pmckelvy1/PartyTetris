@@ -103,6 +103,21 @@ ul {
                5px -5px 5px #CCC;
 }
 
+.play-again {
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 300px;
+  text-align: center;
+  font-size: 30px;
+  text-shadow: 2px 0px 2px #CCC,
+               0px 2px 2px #CCC,
+               2px 2px 2px #CCC,
+              -2px 2px 2px #CCC,
+              -2px -2px 2px #CCC,
+               2px -2px 2px #CCC;
+}
+
 .level-up {
   display: none;
   width: 100%;

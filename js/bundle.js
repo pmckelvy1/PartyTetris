@@ -77,10 +77,11 @@
 	  this.$levelUp = $('.level-up');
 	  this.$levelNum = $('.level-num');
 	  this.$level = $('.level');
-	  this.nextLevelValue = 1000;
 	  this.$nextBlock = $('.next-block');
 	  this.$holdBlock = $('.hold-block');
 	  this.$controls = $('.controls');
+	  this.$playAgain = $('.play-again');
+	  this.nextLevelValue = 1000;
 	  this.levelSpeedValue = 10;
 	  this.setupGrid(Board.WIDTH, Board.HEIGHT);
 	  this.setupBoxes(6, 6);
@@ -127,6 +128,21 @@
 	      this.renderGameOver();
 	    }
 	  }.bind(this), 60);
+	};
+	
+	View.prototype.init = function () {
+	  this.nextLevelValue = 1000;
+	  this.levelSpeedValue = 10;
+	  this.gameOverBool = false;
+	  this.stepCounter = 0;
+	};
+	
+	View.prototype.reset = function () {
+	  this.$gameOver.css('display', 'none');
+	  this.$playAgain.css('display', 'none');
+	  this.board.init();
+	  this.init();
+	  this.gameLoopMacro();
 	};
 	
 	View.prototype.levelUp = function () {
@@ -279,6 +295,7 @@
 	
 	View.prototype.renderGameOver = function () {
 	  this.$gameOver.css('display', 'block');
+	  this.$playAgain.css('display', 'block');
 	};
 	
 	View.prototype.renderLevelUp = function () {
@@ -309,8 +326,11 @@
 	    case 32: //spacebar = hold block
 	      this.board.swapBlocks();
 	      break;
-	    default:
-	    return;
+	    case 13:
+	      if (this.gameOverBool) {
+	        this.reset();
+	      }
+	      break;
 	  }
 	};
 	
@@ -327,15 +347,16 @@
 	var Util = new TetrisUtil();
 	
 	var Board = function () {
-	  this.playBlock = {};
-	  this.holdBlock = {};
-	  this.nextBlock = {};
-	  this.blocks = {};
 	  this.init();
 	};
 	
 	Board.prototype.init = function () {
 	  this.score = 0;
+	  this.blocks = {};
+	  this.playBlock = {};
+	  this.holdBlock = {};
+	  this.nextBlock = {};
+	
 	  var seed = Math.floor(Math.random() * 6.9999999);
 	  var nextBlock = Block.BLOCKS[seed];
 	
