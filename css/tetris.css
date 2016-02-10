@@ -107,15 +107,17 @@ ul {
   display: none;
   width: 100%;
   position: absolute;
-  top: 200px;
+  top: 100px;
   text-align: center;
-  font-size: 50px;
-  text-shadow: 5px 0px 5px #CCC,
-               0px 5px 5px #CCC,
-               5px 5px 5px #CCC,
-              -5px 5px 5px #CCC,
-              -5px -5px 5px #CCC,
-               5px -5px 5px #CCC;
+  font-size: 48px;
+  text-shadow: 3px 0px 3px #CCC,
+               0px 3px 3px #CCC,
+               -3px 0px 3px #CCC,
+               0px -3px 3px #CCC,
+               3px 3px 3px #CCC,
+              -3px 3px 3px #CCC,
+              -3px -3px 3px #CCC,
+               3px -3px 3px #CCC;
 }
 
 .score {
@@ -136,6 +138,10 @@ ul {
 .sidebar {
   display: block;
   float: right;
+}
+
+.audio-player {
+  display: none;
 }
 
 .next-block {

@@ -126,6 +126,7 @@
 	};
 	
 	View.prototype.levelUp = function () {
+	  console.log('levelup');
 	  this.levelSpeedValue -= 1;
 	  this.nextLevelValue *= 2;
 	  this.renderLevelUp();
@@ -145,7 +146,6 @@
 	View.prototype.gameStepMacro = function () {
 	  if (this.board.gameOver()) {
 	    console.log('gameover');
-	    debugger
 	    this.gameOver();
 	  } else {
 	    this.board.step();
@@ -264,7 +264,7 @@
 	};
 	
 	View.prototype.renderLevelUp = function () {
-	  this.$levelUp.css('display', 'none');
+	  this.$levelUp.css('display', 'block');
 	  setTimeout(function () {
 	    this.$levelUp.css('display', 'none');
 	  }.bind(this), 1500);
