@@ -34,6 +34,8 @@ var View = function ($viewEl) {
 // speedUp
 // slowDown
 // gameStep
+
+
 View.prototype.gameLoopMacro = function() {
   this.int = setInterval(function () {
     console.log('loop');
@@ -72,7 +74,7 @@ View.prototype.gameStepMacro = function () {
 
 View.prototype.gameOver = function () {
   this.gameOverBool = true;
-}
+};
 
 View.prototype.setupGrid = function (width, height) {
   var x, y, $ul, $li, id;

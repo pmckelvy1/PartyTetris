@@ -92,6 +92,8 @@
 	// speedUp
 	// slowDown
 	// gameStep
+	
+	
 	View.prototype.gameLoopMacro = function() {
 	  this.int = setInterval(function () {
 	    console.log('loop');
@@ -130,7 +132,7 @@
 	
 	View.prototype.gameOver = function () {
 	  this.gameOverBool = true;
-	}
+	};
 	
 	View.prototype.setupGrid = function (width, height) {
 	  var x, y, $ul, $li, id;
@@ -250,6 +252,8 @@
 	  if (this.canMove(this.playBlock, [0,1])) {
 	    this.playBlock.dropOne();
 	  } else {
+	    this.storeBlock();
+	    this.deleteRows();
 	    this.spawnBlock();
 	  }
 	};
@@ -272,7 +276,6 @@
 	Board.prototype.spawnBlock = function () {
 	  var seed = Math.round(Math.random() * 7);
 	  var nextBlock = Block.BLOCKS[seed];
-	  this.storeBlock();
 	  this.playBlock = $.extend({}, this.nextBlock);
 	  this.playBlock.putInPlay();
 	  var color = Util.selectRandomColor();
@@ -348,7 +351,53 @@
 	  if (this.canTurn()) {
 	    this.playBlock.turn();
 	  }
-	}
+	};
+	
+	Board.prototype.deleteRows = function () {
+	  var id;
+	  var fullLine;
+	  var linesToDelete = [];
+	
+	  // CHECK FOR ROWS TO DELETE
+	  for (var y = 0; y < 20; y++) {
+	    fullLine = true;
+	    for (var x = 0; x < 10; x++) {
+	      id = x * 100 + y;
+	      if (!this.blocks[id]) {
+	        fullLine = false;
+	        break;
+	      }
+	    }
+	    if (fullLine === true) {
+	      linesToDelete.push(y);
+	    }
+	  }
+	
+	  // DELETE ROWS, MOVE ABOVE ROWS
+	  linesToDelete.forEach(function(lineYValue) {
+	    // DELETE ROW
+	    for (var i = 0; i < 10; i++) {
+	      id = i * 100 + lineYValue;
+	      delete this.blocks[id];
+	    }
+	
+	    // MOVE ABOVE ROWS DOWN
+	    var newId;
+	    for (var j = lineYValue - 1; j >= 0; j--) {
+	      for (var i = 0; i < 10; i++) {
+	        id = i * 100 + j;
+	        if (this.blocks[id]) {
+	          blockObject = Object.assign({}, this.blocks[id]);
+	          delete this.blocks[id];
+	          blockObject.coord = Coords.addCoords(blockObject.coord, [0,1]);
+	          newId = blockObject.coord[0] * 100 + blockObject.coord[1];
+	          this.blocks[newId] = Object.assign({}, blockObject);
+	        }
+	      }
+	    }
+	  }.bind(this));
+	};
+	
 	
 	module.exports = Board;
 
