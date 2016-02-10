@@ -32,7 +32,7 @@ ul {
 .game-box {
   display: block;
   margin: auto;
-  width: 600px;
+  width: 610px;
   border: 5px solid black;
   border-radius: 2px;
   padding: 10px;
@@ -80,7 +80,7 @@ ul {
   padding: 20px;
   background: black;
   color: white;
-  width: 250px;
+  width: 258px;
   box-sizing: border-box;
   display: block;
   margin: auto;
@@ -124,7 +124,6 @@ ul {
   display: block;
   border-bottom: 2px solid black;
   text-align: center;
-  color: white;
 }
 
 .score-box {
@@ -132,12 +131,41 @@ ul {
   margin-top: 10px;
   text-align: right;
   font-size: 24px;
-  color: white;
+  margin-bottom: 50px;
 }
 
-.sidebar {
+.level {
+  display: block;
+  font-size: 24px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.level-num {
+  display: block;
+  font-size: 100px;
+  padding: 10px;
+  text-align: center;
+}
+
+.right-sidebar {
   display: block;
   float: right;
+}
+
+.left-sidebar {
+  display: block;
+  float: left;
+}
+
+.controls {
+  display: block;
+}
+
+.control {
+  display: block;
+  margin-bottom: 20px;
 }
 
 .audio-player {
@@ -157,10 +185,10 @@ ul {
 
 .hold-block {
   display: block;
-  float: left;
   height: 150px;
   width: 150px;
   border-radius: 5px;
+  margin-bottom: 50px;
   background: black;
   background: black;
   border-radius: 2px;

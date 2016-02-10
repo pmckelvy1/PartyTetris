@@ -12,13 +12,17 @@ var View = function ($viewEl) {
   this.board = new Board();
   this.$view = $viewEl;
   this.$title = $('.title');
-  this.$score = $('.score-box');
+  this.$scoreBox = $('.score-box');
+  this.$score = $('.score');
   this.$gameOver = $('.game-over');
   this.$tetrisGame = $('.tetris-game');
   this.$levelUp = $('.level-up');
+  this.$levelNum = $('.level-num');
+  this.$level = $('.level');
   this.nextLevelValue = 1000;
   this.$nextBlock = $('.next-block');
   this.$holdBlock = $('.hold-block');
+  this.$controls = $('.controls');
   this.levelSpeedValue = 10;
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
   this.setupBoxes(6, 6);
@@ -137,10 +141,8 @@ View.prototype.render = function () {
   this.renderScore();
   this.renderTitle();
   this.renderBorder();
-};
-
-View.prototype.renderBorder = function () {
-  this.$tetrisGame.css('border-color', Tetris.Util.getColor());
+  this.renderControls();
+  this.renderLevel();
 };
 
 View.prototype.renderBlocks = function () {
@@ -197,8 +199,24 @@ View.prototype.renderHoldBlock = function () {
 };
 
 View.prototype.renderScore = function () {
-  console.log(this.board.score);
-  this.$score.html(this.board.score);
+  this.$scoreBox.html(this.board.score);
+  this.$scoreBox.css('color', Tetris.Util.getColor());
+  this.$score.css('color', Tetris.Util.getColor());
+};
+
+View.prototype.renderLevel = function () {
+  var level = 11 - this.levelSpeedValue;
+  this.$levelNum.html(level);
+  this.$levelNum.css('color', Tetris.Util.getColor());
+  this.$level.css('color', Tetris.Util.getColor());
+};
+
+View.prototype.renderBorder = function () {
+  this.$tetrisGame.css('border-color', Tetris.Util.getColor());
+};
+
+View.prototype.renderControls = function () {
+  this.$controls.find('.control').css('color', Tetris.Util.getColor());
 };
 
 View.prototype.renderGameOver = function () {

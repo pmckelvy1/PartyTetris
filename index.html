@@ -5,20 +5,37 @@
     <script type="text/javascript" src="./js/jquery-2.2.0.min.js"></script>
     <script type="text/javascript" src="./js/bundle.js"></script>
     <link rel="stylesheet" href="./css/tetris.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="./css/font-awesome/css/font-awesome.css" media="screen" title="no title" charset="utf-8">
     <title>Tetris</title>
   </head>
   <body>
     <figure class="game-box group">
-      <h1 class="title">Party Tetris</h1>
-      <figure class="hold-block"></figure>
+      <h1 class="title">Party Tetris!</h1>
+
+      <figure class="left-sidebar">
+        <figure class="hold-block"></figure>
+        <ul class="controls">
+          <li class="control"><i class="fa fa-arrow-left"></i> boogie left!</li>
+          <li class="control"><i class="fa fa-arrow-right"></i> boogie right!</li>
+          <li class="control"><i class="fa fa-arrow-up"></i> spin move!</li>
+          <li class="control"><i class="fa fa-arrow-up"></i> drop it down low!</li>
+          <li class="control"><i class="fa fa-space-shuttle"></i> switch it up!</li>
+        </ul>
+      </figure>
+
       <figure class="tetris-game group">
       </figure>
-      <figure class="sidebar">
+
+      <figure class="right-sidebar">
         <figure class="next-block"></figure>
         <h2 class="score">Score</h2>
         <div class="score-box">
         </div>
+        <h2 class="level">Level</h2>
+        <div class="level-num">
+        </div>
       </figure>
+
     </figure>
     <div class="game-over color-flow">
       GAME OVER
