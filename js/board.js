@@ -130,6 +130,12 @@ Board.prototype.move = function (dir) {
   }
 };
 
+Board.prototype.land = function () {
+  while (this.canMove(this.playBlock, [0,1])) {
+    this.playBlock.move([0,1]);
+  }
+};
+
 Board.prototype.canTurn = function () {
   var canTurn = true;
   var testCoords = this.playBlock.coords.map(function(coord) {

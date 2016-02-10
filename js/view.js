@@ -260,7 +260,8 @@ View.prototype.handleKeyEvent = function (e) {
       this.board.move([1,0]);
       break;
     case 40: //down = land
-      this.board.move([0,1]);
+      // this.board.move([0,1]);
+      this.board.land();
       break;
     case 37: //left = move left
       this.board.move([-1,0]);

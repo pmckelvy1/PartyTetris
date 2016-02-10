@@ -318,7 +318,8 @@
 	      this.board.move([1,0]);
 	      break;
 	    case 40: //down = land
-	      this.board.move([0,1]);
+	      // this.board.move([0,1]);
+	      this.board.land();
 	      break;
 	    case 37: //left = move left
 	      this.board.move([-1,0]);
@@ -470,6 +471,12 @@
 	Board.prototype.move = function (dir) {
 	  if (this.canMove(this.playBlock, dir)) {
 	    this.playBlock.move(dir);
+	  }
+	};
+	
+	Board.prototype.land = function () {
+	  while (this.canMove(this.playBlock, [0,1])) {
+	    this.playBlock.move([0,1]);
 	  }
 	};
 	
