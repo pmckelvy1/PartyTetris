@@ -103,6 +103,21 @@ ul {
                5px -5px 5px #CCC;
 }
 
+.level-up {
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 200px;
+  text-align: center;
+  font-size: 50px;
+  text-shadow: 5px 0px 5px #CCC,
+               0px 5px 5px #CCC,
+               5px 5px 5px #CCC,
+              -5px 5px 5px #CCC,
+              -5px -5px 5px #CCC,
+               5px -5px 5px #CCC;
+}
+
 .score {
   display: block;
   border-bottom: 2px solid black;

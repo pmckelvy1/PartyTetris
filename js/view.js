@@ -15,8 +15,11 @@ var View = function ($viewEl) {
   this.$score = $('.score-box');
   this.$gameOver = $('.game-over');
   this.$tetrisGame = $('.tetris-game');
+  this.$levelUp = $('.level-up');
+  this.nextLevelValue = 1000;
   this.$nextBlock = $('.next-block');
   this.$holdBlock = $('.hold-block');
+  this.levelSpeedValue = 10;
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
   this.setupBoxes(6, 6);
   this.bindKeyEvents();
@@ -48,17 +51,26 @@ var View = function ($viewEl) {
 View.prototype.gameLoopMacro = function() {
   this.int = setInterval(function () {
     this.stepCounter += 1;
-    if (this.stepCounter >= 5) {
+    if (this.stepCounter >= this.levelSpeedValue) {
       this.gameStepMacro();
       this.stepCounter = 0;
     }
     this.board.playBlock.updateColor();
+    if (this.board.score >= this.nextLevelValue) {
+      this.levelUp();
+    }
     this.render();
     if (this.gameOverBool) {
       clearInterval(this.int);
       this.renderGameOver();
     }
   }.bind(this), 60);
+};
+
+View.prototype.levelUp = function () {
+  this.levelSpeedValue -= 1;
+  this.nextLevelValue *= 2;
+  this.renderLevelUp();
 };
 // View.prototype.gameLoopMacro = function() {
 //   this.stepCounter += 1;
@@ -191,6 +203,13 @@ View.prototype.renderScore = function () {
 
 View.prototype.renderGameOver = function () {
   this.$gameOver.css('display', 'block');
+};
+
+View.prototype.renderLevelUp = function () {
+  this.$levelUp.css('display', 'none');
+  setTimeout(function () {
+    this.$levelUp.css('display', 'none');
+  }.bind(this), 1500);
 };
 
 View.prototype.bindKeyEvents = function () {
