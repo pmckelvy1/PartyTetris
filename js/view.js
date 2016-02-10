@@ -129,7 +129,7 @@ View.prototype.bindKeyEvents = function () {
 View.prototype.handleKeyEvent = function (e) {
   switch(e.which) {
     case 38: //up = rotate
-      this.board.playBlock.turn();
+      this.board.turn();
     break;
     case 39: //right = move right
       this.board.move([1,0]);

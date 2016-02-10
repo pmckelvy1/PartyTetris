@@ -32,16 +32,7 @@ Block.prototype.move = function (dir) {
 };
 
 Block.prototype.turn = function () {
-  if (this.canTurn) {
-    this.coords = Coords.rotate(this.coords, this.coords[2]);
-  }
-};
-
-Block.prototype.canTurn = function () {
-  var canTurn = true;
-  var testCoords = this.coords.slice();
-  testCoords = Coords.rotate(testCoords, testCoords[2]);
-  return !Coords.outOfBounds(testCoords);
+  this.coords = Coords.rotate(this.coords, this.coords[2]);
 };
 
 Block.prototype.putInPlay = function () {

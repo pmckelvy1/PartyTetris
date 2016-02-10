@@ -102,4 +102,33 @@ Board.prototype.move = function (dir) {
   }
 };
 
+Board.prototype.canTurn = function () {
+  var canTurn = true;
+  var testCoords = this.playBlock.coords.map(function(coord) {
+    return coord.slice();
+  });
+  testCoords = Coords.rotate(testCoords, testCoords[2]);
+
+  // TEST FOR OUT OF BOUNDS
+  if (Coords.outOfBounds(testCoords)) {
+    canTurn = false;
+  };
+
+  // TEST FOR LANDED ON BLOCK
+  var id;
+  testCoords.forEach(function(coord) {
+    id = coord[0] * 100 + coord[1];
+    if (this.blocks[id]) {
+      canTurn = false;
+    }
+  }.bind(this));
+  return canTurn;
+};
+
+Board.prototype.turn = function () {
+  if (this.canTurn()) {
+    this.playBlock.turn();
+  }
+}
+
 module.exports = Board;

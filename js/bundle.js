@@ -187,7 +187,7 @@
 	View.prototype.handleKeyEvent = function (e) {
 	  switch(e.which) {
 	    case 38: //up = rotate
-	      this.board.playBlock.turn();
+	      this.board.turn();
 	    break;
 	    case 39: //right = move right
 	      this.board.move([1,0]);
@@ -316,6 +316,35 @@
 	  }
 	};
 	
+	Board.prototype.canTurn = function () {
+	  var canTurn = true;
+	  var testCoords = this.playBlock.coords.map(function(coord) {
+	    return coord.slice();
+	  });
+	  testCoords = Coords.rotate(testCoords, testCoords[2]);
+	
+	  // TEST FOR OUT OF BOUNDS
+	  if (Coords.outOfBounds(testCoords)) {
+	    canTurn = false;
+	  };
+	
+	  // TEST FOR LANDED ON BLOCK
+	  var id;
+	  testCoords.forEach(function(coord) {
+	    id = coord[0] * 100 + coord[1];
+	    if (this.blocks[id]) {
+	      canTurn = false;
+	    }
+	  }.bind(this));
+	  return canTurn;
+	};
+	
+	Board.prototype.turn = function () {
+	  if (this.canTurn()) {
+	    this.playBlock.turn();
+	  }
+	}
+	
 	module.exports = Board;
 
 
@@ -357,16 +386,7 @@
 	};
 	
 	Block.prototype.turn = function () {
-	  if (this.canTurn) {
-	    this.coords = Coords.rotate(this.coords, this.coords[2]);
-	  }
-	};
-	
-	Block.prototype.canTurn = function () {
-	  var canTurn = true;
-	  var testCoords = this.coords.slice();
-	  testCoords = Coords.rotate(testCoords, testCoords[2]);
-	  return !Coords.outOfBounds(testCoords);
+	  this.coords = Coords.rotate(this.coords, this.coords[2]);
 	};
 	
 	Block.prototype.putInPlay = function () {
