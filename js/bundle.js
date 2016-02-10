@@ -71,6 +71,7 @@
 	  this.$view = $viewEl;
 	  this.$title = $('.title');
 	  this.$score = $('.score-box');
+	  this.$gameOver = $('.game-over');
 	  this.$tetrisGame = $('.tetris-game');
 	  this.$nextBlock = $('.next-block');
 	  this.$holdBlock = $('.hold-block');
@@ -113,6 +114,7 @@
 	    this.render();
 	    if (this.gameOverBool) {
 	      clearInterval(this.int);
+	      this.renderGameOver();
 	    }
 	  }.bind(this), 60);
 	};
@@ -243,6 +245,10 @@
 	View.prototype.renderScore = function () {
 	  console.log(this.board.score);
 	  this.$score.html(this.board.score);
+	};
+	
+	View.prototype.renderGameOver = function () {
+	  this.$gameOver.css('display', 'block');
 	};
 	
 	View.prototype.bindKeyEvents = function () {

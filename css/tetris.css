@@ -88,6 +88,21 @@ ul {
   font-size: 35px;
 }
 
+.game-over {
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 200px;
+  text-align: center;
+  font-size: 80px;
+  text-shadow: 5px 0px 5px #CCC,
+               0px 5px 5px #CCC,
+               5px 5px 5px #CCC,
+              -5px 5px 5px #CCC,
+              -5px -5px 5px #CCC,
+               5px -5px 5px #CCC;
+}
+
 .score {
   display: block;
   border-bottom: 2px solid black;
@@ -130,6 +145,7 @@ ul {
   border-radius: 2px;
 }
 
+
 .color-flow {
   animation:colorflow 5s linear infinite;
   -moz-animation:colorflow 5s linear infinite; /* Firefox */
@@ -138,35 +154,37 @@ ul {
 }
 
 @keyframes colorflow {
-  0%,100%   {background:rgb(110, 110, 245);}
-  16.666666%  {background:rgb(110, 245, 245);}
-  33.333333%  {background:rgb(110, 245, 110);}
-  50% {background:rgb(245, 245, 110);}
-  66.666666% {background:rgb(245, 110, 110);}
-  83.333333% {background:rgb(245, 110, 245);}
+  0%,100%   {color:rgb(110, 110, 245);}
+  16.666666%  {color:rgb(110, 245, 245);}
+  33.333333%  {color:rgb(110, 245, 110);}
+  50% {color:rgb(245, 245, 110);}
+  66.666666% {color:rgb(245, 110, 110);}
+  83.333333% {color:rgb(245, 110, 245);}
 }
 
 @-moz-keyframes colorflow /* Firefox */ {
-  0%,100%   {background:rgb(110, 110, 245);}
-  16.666666%  {background:rgb(110, 245, 245);}
-  33.333333%  {background:rgb(110, 245, 110);}
-  50% {background:rgb(245, 245, 110);}
-  66.666666% {background:rgb(245, 110, 110);}
-  83.333333% {background:rgb(245, 110, 245);}
+  0%,100%   {color:rgb(110, 110, 245);}
+  16.666666%  {color:rgb(110, 245, 245);}
+  33.333333%  {color:rgb(110, 245, 110);}
+  50% {color:rgb(245, 245, 110);}
+  66.666666% {color:rgb(245, 110, 110);}
+  83.333333% {color:rgb(245, 110, 245);}
 }
 
 @-webkit-keyframes colorflow /* Safari and Chrome */ {
-  0%   {background:red;}
-  25%  {background:yellow;}
-  50%  {background:blue;}
-  100% {background:green;}
+  0%,100%   {color:rgb(110, 110, 245);}
+  16.666666%  {color:rgb(110, 245, 245);}
+  33.333333%  {color:rgb(110, 245, 110);}
+  50% {color:rgb(245, 245, 110);}
+  66.666666% {color:rgb(245, 110, 110);}
+  83.333333% {color:rgb(245, 110, 245);}
 }
 
 @-o-keyframes colorflow /* Opera */ {
-  0%,100%   {background:rgb(110, 110, 245);}
-  16.666666%  {background:rgb(110, 245, 245);}
-  33.333333%  {background:rgb(110, 245, 110);}
-  50% {background:rgb(245, 245, 110);}
-  66.666666% {background:rgb(245, 110, 110);}
-  83.333333% {background:rgb(245, 110, 245);}
+  0%,100%   {color:rgb(110, 110, 245);}
+  16.666666%  {color:rgb(110, 245, 245);}
+  33.333333%  {color:rgb(110, 245, 110);}
+  50% {color:rgb(245, 245, 110);}
+  66.666666% {color:rgb(245, 110, 110);}
+  83.333333% {color:rgb(245, 110, 245);}
 }
