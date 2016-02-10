@@ -47,6 +47,10 @@ Util.prototype.updateColor = function () {
   return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
 };
 
+Util.prototype.getColor = function () {
+  return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
+};
+
 
 Util.prototype.selectRandomColor = function () {
     var x, y, z;

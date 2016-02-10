@@ -57,17 +57,21 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Board = __webpack_require__(2);
+	var Util = __webpack_require__(5);
+	
 	Board.HEIGHT = 20;
 	Board.WIDTH = 10;
 	
 	var Game_SPEED = 1500; // ms
 	
-	var TetrisGame = (window.TetrisGame ||  {});
+	var Tetris = window.Tetris = (window.Tetris || {});
 	
 	var View = function ($viewEl) {
 	  this.board = new Board();
 	  this.$view = $viewEl;
+	  this.$title = $('.title');
 	  this.$score = $('.score-box');
+	  this.$tetrisGame = $('.tetris-game');
 	  this.$nextBlock = $('.next-block');
 	  this.$holdBlock = $('.hold-block');
 	  this.setupGrid(Board.WIDTH, Board.HEIGHT);
@@ -174,6 +178,13 @@
 	
 	View.prototype.render = function () {
 	  this.renderBlocks();
+	  this.renderScore();
+	  this.renderTitle();
+	  this.renderBorder();
+	};
+	
+	View.prototype.renderBorder = function () {
+	  this.$tetrisGame.css('border-color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderBlocks = function () {
@@ -191,7 +202,10 @@
 	  this.renderPlayBlock();
 	  this.renderNextBlock();
 	  this.renderHoldBlock();
-	  this.renderScore();
+	};
+	
+	View.prototype.renderTitle = function () {
+	  this.$title.css('color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderPlayBlock = function () {
@@ -480,9 +494,10 @@
 
 	var Board = __webpack_require__(2);
 	var TetrisUtil = __webpack_require__(5);
-	var Util = new TetrisUtil();
 	
 	var Tetris = window.Tetris = (window.Tetris || {});
+	Tetris.Util = new TetrisUtil();
+	
 	
 	Board.WIDTH = 10;
 	Board.HEIGHT = 20;
@@ -550,7 +565,7 @@
 	};
 	
 	Block.prototype.updateColor = function () {
-	  this.color = Util.updateColor();
+	  this.color = Tetris.Util.updateColor();
 	};
 	
 	// INHERITS FUNCITON
@@ -738,6 +753,10 @@
 	      }
 	      break;
 	  }
+	  return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
+	};
+	
+	Util.prototype.getColor = function () {
 	  return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
 	};
 	

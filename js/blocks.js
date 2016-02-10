@@ -1,8 +1,9 @@
 var Board = require('./board');
 var TetrisUtil = require('./util');
-var Util = new TetrisUtil();
 
 var Tetris = window.Tetris = (window.Tetris || {});
+Tetris.Util = new TetrisUtil();
+
 
 Board.WIDTH = 10;
 Board.HEIGHT = 20;
@@ -70,7 +71,7 @@ Block.prototype.xMovement = function () {
 };
 
 Block.prototype.updateColor = function () {
-  this.color = Util.updateColor();
+  this.color = Tetris.Util.updateColor();
 };
 
 // INHERITS FUNCITON
