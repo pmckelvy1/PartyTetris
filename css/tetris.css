@@ -33,12 +33,20 @@ ul {
   margin-left: 25px;
   height: 500px;
   width: 250px;
+  background: black;
 }
 
 .block {
   height: 25px;
   width: 25px;
   display: block;
+  border-radius: 2px;
+  border: 4px;
+  box-sizing: border-box;
+  box-shadow: inset 3px 3px 3px rgba(0,0,0,0.5),
+              inset -3px -3px 3px rgba(0,0,0,0.5),
+              inset 3px -3px 3px rgba(0,0,0,0.5),
+              inset -3px 3px 3px rgba(0,0,0,0.5);
 }
 
 .column {
@@ -79,6 +87,7 @@ ul {
   border-radius: 5px;
   background: black;
   margin-bottom: 50px;
+  background: black;
 }
 
 .hold-block {
@@ -87,6 +96,7 @@ ul {
   height: 150px;
   width: 150px;
   border-radius: 5px;
+  background: black;
   background: black;
 }
 

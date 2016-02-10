@@ -51,7 +51,7 @@ View.prototype.gameLoopMacro = function() {
     if (this.gameOverBool) {
       clearInterval(this.int);
     }
-  }.bind(this), 60)
+  }.bind(this), 60);
 };
 // View.prototype.gameLoopMacro = function() {
 //   this.stepCounter += 1;
@@ -94,7 +94,7 @@ View.prototype.setupGrid = function (width, height) {
 };
 
 View.prototype.setupBoxes = function (width, height) {
-  var x, y, $ul, $li, id;
+  var x, y, $ul1, $ul2, $li1, $li2, id1, id2;
   for (x = 2; x < width + 2; x++) {
     $ul1 = $("<ul>").addClass("group");
     $ul2 = $("<ul>").addClass("group");
@@ -126,8 +126,9 @@ View.prototype.renderBlocks = function () {
   for (var id in this.board.blocks) {
     gridId = '#' + id;
     klass = 'block';
-    this.$view.find(gridId).addClass(klass).css('background', this.board.blocks[id].color);
-  };
+    this.$view.find(gridId).addClass(klass)
+      .css('background', this.board.blocks[id].color);
+  }
   this.renderPlayBlock();
   this.renderNextBlock();
   this.renderHoldBlock();
@@ -138,25 +139,30 @@ View.prototype.renderPlayBlock = function () {
     var id = coord[0] * 100 + coord[1];
     var gridId = '#' + id;
     var klass = 'grid-point block';
-    this.$view.find(gridId).addClass(klass).css('background', this.board.playBlock.color);
+    this.$view.find(gridId).addClass(klass)
+      .css('background', this.board.playBlock.color);
   }.bind(this));
 };
 
 View.prototype.renderNextBlock = function () {
   var id;
   this.$nextBlock.find('li').css('background', '#000');
+  var klass = 'grid-point block';
   this.board.nextBlock.spawnCoords.forEach(function (coord) {
     id = '#nb' + (coord[1] * 100 + coord[0]);
-    this.$nextBlock.find(id).css('background', this.board.nextBlock.color);
+    this.$nextBlock.find(id).addClass(klass)
+      .css('background', this.board.nextBlock.color);
   }.bind(this));
 };
 
 View.prototype.renderHoldBlock = function () {
   var id;
   this.$holdBlock.find('li').css('background', '#000');
+  var klass = 'grid-point block';
   this.board.holdBlock.spawnCoords.forEach(function (coord) {
     id = '#hb' + (coord[1] * 100 + coord[0]);
-    this.$holdBlock.find(id).css('background', this.board.holdBlock.color);
+    this.$holdBlock.find(id).addClass(klass)
+      .css('background', this.board.holdBlock.color);
   }.bind(this));
 };
 
@@ -168,18 +174,19 @@ View.prototype.handleKeyEvent = function (e) {
   switch(e.which) {
     case 38: //up = rotate
       this.board.turn();
-    break;
+      break;
     case 39: //right = move right
       this.board.move([1,0]);
-    break;
+      break;
     case 40: //down = land
       this.board.move([0,1]);
-    break;
+      break;
     case 37: //left = move left
       this.board.move([-1,0]);
-    break;
+      break;
     case 32: //spacebar = hold block
       this.board.swapBlocks();
+      break;
     default:
     return;
   }

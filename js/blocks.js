@@ -81,46 +81,53 @@ var inherits = function (subClass, superClass) {
   subClass.prototype.constructor = subClass;
 };
 
-var Square = Tetris.Square = function (hashColor) {
+var Square = Tetris.Square = function (color, border) {
   this.spawnCoords = [[4,2], [5,2], [4,3], [5,3]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
-var Zig = Tetris.Zig = function (hashColor) {
+var Zig = Tetris.Zig = function (color, border) {
   this.spawnCoords = [[4,2], [5,2], [5,3], [6,3]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
-var Zag = Tetris.Zag = function (hashColor) {
+var Zag = Tetris.Zag = function (color, border) {
   this.spawnCoords = [[4,3], [5,3], [5,2], [6,2]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
-var Tee = Tetris.Tee = function (hashColor) {
+var Tee = Tetris.Tee = function (color, border) {
   this.spawnCoords = [[4,2], [5,2], [5,3], [6,2]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
-var El = Tetris.El = function (hashColor) {
+var El = Tetris.El = function (color, border) {
   this.spawnCoords = [[4,2], [4,3], [5,3], [6,3]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
-var Le = Tetris.Le = function (hashColor) {
+var Le = Tetris.Le = function (color, border) {
   this.spawnCoords = [[3,3], [4,3], [5,3], [5,2]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
-var Line = Tetris.Line = function (hashColor) {
+var Line = Tetris.Line = function (color, border) {
   this.spawnCoords = [[3,2], [4,2], [5,2], [6,2]];
   this.coords = [];
-  this.color = hashColor;
+  this.color = color;
+  this.border = border;
 };
 
 inherits(Tetris.Square, Tetris.Block);

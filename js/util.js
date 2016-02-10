@@ -47,9 +47,11 @@ Util.prototype.updateColor = function () {
   return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
 };
 
+
 Util.prototype.selectRandomColor = function () {
     var x, y, z;
     var color;
+    var border;
     var variable = Math.floor(Math.random() * 135) + 110;
     var choose = Math.floor(Math.random() * 5.9999999999);
     switch (choose) {

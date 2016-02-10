@@ -109,7 +109,7 @@
 	    if (this.gameOverBool) {
 	      clearInterval(this.int);
 	    }
-	  }.bind(this), 60)
+	  }.bind(this), 60);
 	};
 	// View.prototype.gameLoopMacro = function() {
 	//   this.stepCounter += 1;
@@ -152,7 +152,7 @@
 	};
 	
 	View.prototype.setupBoxes = function (width, height) {
-	  var x, y, $ul, $li, id;
+	  var x, y, $ul1, $ul2, $li1, $li2, id1, id2;
 	  for (x = 2; x < width + 2; x++) {
 	    $ul1 = $("<ul>").addClass("group");
 	    $ul2 = $("<ul>").addClass("group");
@@ -184,8 +184,9 @@
 	  for (var id in this.board.blocks) {
 	    gridId = '#' + id;
 	    klass = 'block';
-	    this.$view.find(gridId).addClass(klass).css('background', this.board.blocks[id].color);
-	  };
+	    this.$view.find(gridId).addClass(klass)
+	      .css('background', this.board.blocks[id].color);
+	  }
 	  this.renderPlayBlock();
 	  this.renderNextBlock();
 	  this.renderHoldBlock();
@@ -196,25 +197,30 @@
 	    var id = coord[0] * 100 + coord[1];
 	    var gridId = '#' + id;
 	    var klass = 'grid-point block';
-	    this.$view.find(gridId).addClass(klass).css('background', this.board.playBlock.color);
+	    this.$view.find(gridId).addClass(klass)
+	      .css('background', this.board.playBlock.color);
 	  }.bind(this));
 	};
 	
 	View.prototype.renderNextBlock = function () {
 	  var id;
 	  this.$nextBlock.find('li').css('background', '#000');
+	  var klass = 'grid-point block';
 	  this.board.nextBlock.spawnCoords.forEach(function (coord) {
 	    id = '#nb' + (coord[1] * 100 + coord[0]);
-	    this.$nextBlock.find(id).css('background', this.board.nextBlock.color);
+	    this.$nextBlock.find(id).addClass(klass)
+	      .css('background', this.board.nextBlock.color);
 	  }.bind(this));
 	};
 	
 	View.prototype.renderHoldBlock = function () {
 	  var id;
 	  this.$holdBlock.find('li').css('background', '#000');
+	  var klass = 'grid-point block';
 	  this.board.holdBlock.spawnCoords.forEach(function (coord) {
 	    id = '#hb' + (coord[1] * 100 + coord[0]);
-	    this.$holdBlock.find(id).css('background', this.board.holdBlock.color);
+	    this.$holdBlock.find(id).addClass(klass)
+	      .css('background', this.board.holdBlock.color);
 	  }.bind(this));
 	};
 	
@@ -226,18 +232,19 @@
 	  switch(e.which) {
 	    case 38: //up = rotate
 	      this.board.turn();
-	    break;
+	      break;
 	    case 39: //right = move right
 	      this.board.move([1,0]);
-	    break;
+	      break;
 	    case 40: //down = land
 	      this.board.move([0,1]);
-	    break;
+	      break;
 	    case 37: //left = move left
 	      this.board.move([-1,0]);
-	    break;
+	      break;
 	    case 32: //spacebar = hold block
 	      this.board.swapBlocks();
+	      break;
 	    default:
 	    return;
 	  }
@@ -544,46 +551,53 @@
 	  subClass.prototype.constructor = subClass;
 	};
 	
-	var Square = Tetris.Square = function (hashColor) {
+	var Square = Tetris.Square = function (color, border) {
 	  this.spawnCoords = [[4,2], [5,2], [4,3], [5,3]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
-	var Zig = Tetris.Zig = function (hashColor) {
+	var Zig = Tetris.Zig = function (color, border) {
 	  this.spawnCoords = [[4,2], [5,2], [5,3], [6,3]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
-	var Zag = Tetris.Zag = function (hashColor) {
+	var Zag = Tetris.Zag = function (color, border) {
 	  this.spawnCoords = [[4,3], [5,3], [5,2], [6,2]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
-	var Tee = Tetris.Tee = function (hashColor) {
+	var Tee = Tetris.Tee = function (color, border) {
 	  this.spawnCoords = [[4,2], [5,2], [5,3], [6,2]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
-	var El = Tetris.El = function (hashColor) {
+	var El = Tetris.El = function (color, border) {
 	  this.spawnCoords = [[4,2], [4,3], [5,3], [6,3]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
-	var Le = Tetris.Le = function (hashColor) {
+	var Le = Tetris.Le = function (color, border) {
 	  this.spawnCoords = [[3,3], [4,3], [5,3], [5,2]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
-	var Line = Tetris.Line = function (hashColor) {
+	var Line = Tetris.Line = function (color, border) {
 	  this.spawnCoords = [[3,2], [4,2], [5,2], [6,2]];
 	  this.coords = [];
-	  this.color = hashColor;
+	  this.color = color;
+	  this.border = border;
 	};
 	
 	inherits(Tetris.Square, Tetris.Block);
@@ -717,9 +731,11 @@
 	  return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
 	};
 	
+	
 	Util.prototype.selectRandomColor = function () {
 	    var x, y, z;
 	    var color;
+	    var border;
 	    var variable = Math.floor(Math.random() * 135) + 110;
 	    var choose = Math.floor(Math.random() * 5.9999999999);
 	    switch (choose) {
