@@ -104,6 +104,7 @@
 	      this.gameStepMacro();
 	      this.stepCounter = 0;
 	    }
+	    this.board.playBlock.updateColor();
 	    this.render();
 	    if (this.gameOverBool) {
 	      clearInterval(this.int);
@@ -251,7 +252,8 @@
 
 	var Block = __webpack_require__(3);
 	var Coords = __webpack_require__(4);
-	var Util = __webpack_require__(5);
+	var TetrisUtil = __webpack_require__(5);
+	var Util = new TetrisUtil();
 	
 	var Board = function () {
 	  this.playBlock = {};
@@ -268,7 +270,7 @@
 	  var color = Util.selectRandomColor();
 	  this.nextBlock = new nextBlock(color);
 	
-	  var color = Util.selectRandomColor();
+	  color = Util.selectRandomColor();
 	  this.holdBlock = new nextBlock(color);
 	
 	  seed = Math.floor(Math.random() * 6.9999999);
@@ -358,7 +360,7 @@
 	  // TEST FOR OUT OF BOUNDS
 	  if (Coords.outOfBounds(testCoords)) {
 	    canMove = false;
-	  };
+	  }
 	
 	  // TEST FOR LANDED ON BLOCK
 	  var id;
@@ -387,7 +389,7 @@
 	  // TEST FOR OUT OF BOUNDS
 	  if (Coords.outOfBounds(testCoords)) {
 	    canTurn = false;
-	  };
+	  }
 	
 	  // TEST FOR LANDED ON BLOCK
 	  var id;
@@ -437,10 +439,10 @@
 	    // MOVE ABOVE ROWS DOWN
 	    var newId;
 	    for (var j = lineYValue - 1; j >= 0; j--) {
-	      for (var i = 0; i < 10; i++) {
+	      for (i = 0; i < 10; i++) {
 	        id = i * 100 + j;
 	        if (this.blocks[id]) {
-	          blockObject = Object.assign({}, this.blocks[id]);
+	          var blockObject = Object.assign({}, this.blocks[id]);
 	          delete this.blocks[id];
 	          blockObject.coord = Coords.addCoords(blockObject.coord, [0,1]);
 	          newId = blockObject.coord[0] * 100 + blockObject.coord[1];
@@ -460,6 +462,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Board = __webpack_require__(2);
+	var TetrisUtil = __webpack_require__(5);
+	var Util = new TetrisUtil();
 	
 	var Tetris = window.Tetris = (window.Tetris || {});
 	
@@ -485,7 +489,7 @@
 	Block.prototype.dropOne = function () {
 	  this.coords = this.coords.map(function (coord) {
 	    return Coords.addCoords(coord, [0, 1]);
-	  })
+	  });
 	};
 	
 	Block.prototype.move = function (dir) {
@@ -526,6 +530,10 @@
 	    leftest += 1;
 	  }
 	  return leftest - 4;
+	};
+	
+	Block.prototype.updateColor = function () {
+	  this.color = Util.updateColor();
 	};
 	
 	// INHERITS FUNCITON
@@ -660,35 +668,82 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	var Util = {
-	  selectRandomColor: function () {
+	var Util = function () {
+	  this.x = 110;
+	  this.y = 110;
+	  this.z = 245;
+	  this.changing = '+x';
+	};
+	
+	Util.prototype.updateColor = function () {
+	  switch(this.changing) {
+	    case '+x':
+	      this.x += 5;
+	      if (this.x === 245) {
+	        this.changing = '-z';
+	      }
+	      break;
+	    case '-z':
+	      this.z -= 5;
+	      if (this.z === 110) {
+	        this.changing = '+y';
+	      }
+	      break;
+	    case '+y':
+	      this.y += 5;
+	      if (this.y === 245) {
+	        this.changing = '-x';
+	      }
+	      break;
+	    case '-x':
+	      this.x -= 5;
+	      if (this.x === 110) {
+	        this.changing = '+z';
+	      }
+	      break;
+	    case '+z':
+	      this.z += 5;
+	      if (this.z === 245) {
+	        this.changing = '-y';
+	      }
+	      break;
+	    case '-y':
+	      this.y -= 5;
+	      if (this.y === 110) {
+	        this.changing = '+x';
+	      }
+	      break;
+	  }
+	  return 'rgb(' + this.x + ',' + this.y + ',' + this.z + ')';
+	};
+	
+	Util.prototype.selectRandomColor = function () {
 	    var x, y, z;
 	    var color;
 	    var variable = Math.floor(Math.random() * 135) + 110;
 	    var choose = Math.floor(Math.random() * 5.9999999999);
 	    switch (choose) {
 	      case 0:
-	        var color = 'rgb(110, 245, ' + variable + ')';
+	        color = 'rgb(110, 245, ' + variable + ')';
 	        break;
 	      case 1:
-	        var color = 'rgb(245, 110, ' + variable + ')';
+	        color = 'rgb(245, 110, ' + variable + ')';
 	        break;
 	      case 2:
-	        var color = 'rgb(110, ' + variable + ', 245)';
+	        color = 'rgb(110, ' + variable + ', 245)';
 	        break;
 	      case 3:
-	        var color = 'rgb(245, ' + variable + ', 110)';
+	        color = 'rgb(245, ' + variable + ', 110)';
 	        break;
 	      case 4:
-	        var color = 'rgb(' + variable + ', 110, 245)';
+	        color = 'rgb(' + variable + ', 110, 245)';
 	        break;
 	      case 5:
-	        var color = 'rgb(' + variable + ', 245, 110)';
+	        color = 'rgb(' + variable + ', 245, 110)';
 	        break;
 	    }
 	    return color;
-	  }
-	};
+	  };
 	
 	module.exports = Util;
 

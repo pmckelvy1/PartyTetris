@@ -1,4 +1,6 @@
 var Board = require('./board');
+var TetrisUtil = require('./util');
+var Util = new TetrisUtil();
 
 var Tetris = window.Tetris = (window.Tetris || {});
 
@@ -24,7 +26,7 @@ var Block = Tetris.Block = function (hashColor) {
 Block.prototype.dropOne = function () {
   this.coords = this.coords.map(function (coord) {
     return Coords.addCoords(coord, [0, 1]);
-  })
+  });
 };
 
 Block.prototype.move = function (dir) {
@@ -65,6 +67,10 @@ Block.prototype.xMovement = function () {
     leftest += 1;
   }
   return leftest - 4;
+};
+
+Block.prototype.updateColor = function () {
+  this.color = Util.updateColor();
 };
 
 // INHERITS FUNCITON

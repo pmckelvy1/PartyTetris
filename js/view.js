@@ -46,6 +46,7 @@ View.prototype.gameLoopMacro = function() {
       this.gameStepMacro();
       this.stepCounter = 0;
     }
+    this.board.playBlock.updateColor();
     this.render();
     if (this.gameOverBool) {
       clearInterval(this.int);

@@ -1,6 +1,7 @@
 var Block = require('./blocks');
 var Coords = require('./coords');
-var Util = require('./util');
+var TetrisUtil = require('./util');
+var Util = new TetrisUtil();
 
 var Board = function () {
   this.playBlock = {};
@@ -17,7 +18,7 @@ Board.prototype.init = function () {
   var color = Util.selectRandomColor();
   this.nextBlock = new nextBlock(color);
 
-  var color = Util.selectRandomColor();
+  color = Util.selectRandomColor();
   this.holdBlock = new nextBlock(color);
 
   seed = Math.floor(Math.random() * 6.9999999);
@@ -107,7 +108,7 @@ Board.prototype.canMove = function (block, dir) {
   // TEST FOR OUT OF BOUNDS
   if (Coords.outOfBounds(testCoords)) {
     canMove = false;
-  };
+  }
 
   // TEST FOR LANDED ON BLOCK
   var id;
@@ -136,7 +137,7 @@ Board.prototype.canTurn = function () {
   // TEST FOR OUT OF BOUNDS
   if (Coords.outOfBounds(testCoords)) {
     canTurn = false;
-  };
+  }
 
   // TEST FOR LANDED ON BLOCK
   var id;
@@ -186,10 +187,10 @@ Board.prototype.deleteRows = function () {
     // MOVE ABOVE ROWS DOWN
     var newId;
     for (var j = lineYValue - 1; j >= 0; j--) {
-      for (var i = 0; i < 10; i++) {
+      for (i = 0; i < 10; i++) {
         id = i * 100 + j;
         if (this.blocks[id]) {
-          blockObject = Object.assign({}, this.blocks[id]);
+          var blockObject = Object.assign({}, this.blocks[id]);
           delete this.blocks[id];
           blockObject.coord = Coords.addCoords(blockObject.coord, [0,1]);
           newId = blockObject.coord[0] * 100 + blockObject.coord[1];
