@@ -228,12 +228,12 @@
 	};
 	
 	Board.prototype.init = function () {
-	  var seed = Math.round(Math.random() * 7);
+	  var seed = Math.round(Math.random() * 6.9999999);
 	  var nextBlock = Block.BLOCKS[seed];
 	  var color = Util.selectRandomColor();
 	  this.nextBlock = new nextBlock(color);
 	
-	  seed = Math.round(Math.random() * 6);
+	  seed = Math.floor(Math.random() * 6.9999999);
 	  nextBlock = Block.BLOCKS[seed];
 	  color = Util.selectRandomColor();
 	  this.playBlock = new nextBlock(color);
@@ -254,7 +254,9 @@
 	  } else {
 	    this.storeBlock();
 	    this.deleteRows();
-	    this.spawnBlock();
+	    if (!this.gameOver()) {
+	      this.spawnBlock();
+	    }
 	  }
 	};
 	
