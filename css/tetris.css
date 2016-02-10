@@ -5,6 +5,7 @@ h2, div, span, figure {
   padding: 0px;
   margin: 0px;
   border: 0px;
+  font-family: sans-serif;
 }
 
 ul {
@@ -18,9 +19,16 @@ ul {
   width: 25px;
 }
 
-.tetris-game {
+.game-box {
   display: block;
   margin: auto;
+  width: 600px;
+}
+
+.tetris-game {
+  display: block;
+  float: left;
+  margin-left: 50px;
   height: 500px;
   width: 250px;
 }
@@ -44,10 +52,38 @@ ul {
   clear: both;
 }
 
-.red {
-  background: red;
+.title {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 40px;
 }
 
-.blue {
-  background: blue;
+.score {
+  display: block;
+  border-bottom: 2px solid black;
+  text-align: center;
+}
+
+.sidebar {
+  display: block;
+  float: right;
+}
+
+.next-block {
+  display: block;
+  height: 150px;
+  width: 125px;
+  border-radius: 5px;
+  background: black;
+  margin-bottom: 50px;
+}
+
+.held-block {
+  display: block;
+  float: left;
+  height: 150px;
+  width: 125px;
+  border-radius: 5px;
+  background: black;
 }
