@@ -9,6 +9,7 @@ var TetrisGame = (window.TetrisGame ||  {});
 var View = function ($viewEl) {
   this.board = new Board();
   this.$view = $viewEl;
+  this.$score = $('.score-box');
   this.$nextBlock = $('.next-block');
   this.$holdBlock = $('.hold-block');
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
@@ -132,6 +133,7 @@ View.prototype.renderBlocks = function () {
   this.renderPlayBlock();
   this.renderNextBlock();
   this.renderHoldBlock();
+  this.renderScore();
 };
 
 View.prototype.renderPlayBlock = function () {
@@ -164,6 +166,11 @@ View.prototype.renderHoldBlock = function () {
     this.$holdBlock.find(id).addClass(klass)
       .css('background', this.board.holdBlock.color);
   }.bind(this));
+};
+
+View.prototype.renderScore = function () {
+  console.log(this.board.score);
+  this.$score.html(this.board.score);
 };
 
 View.prototype.bindKeyEvents = function () {

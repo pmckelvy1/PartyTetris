@@ -67,6 +67,7 @@
 	var View = function ($viewEl) {
 	  this.board = new Board();
 	  this.$view = $viewEl;
+	  this.$score = $('.score-box');
 	  this.$nextBlock = $('.next-block');
 	  this.$holdBlock = $('.hold-block');
 	  this.setupGrid(Board.WIDTH, Board.HEIGHT);
@@ -190,6 +191,7 @@
 	  this.renderPlayBlock();
 	  this.renderNextBlock();
 	  this.renderHoldBlock();
+	  this.renderScore();
 	};
 	
 	View.prototype.renderPlayBlock = function () {
@@ -222,6 +224,11 @@
 	    this.$holdBlock.find(id).addClass(klass)
 	      .css('background', this.board.holdBlock.color);
 	  }.bind(this));
+	};
+	
+	View.prototype.renderScore = function () {
+	  console.log(this.board.score);
+	  this.$score.html(this.board.score);
 	};
 	
 	View.prototype.bindKeyEvents = function () {
@@ -271,6 +278,7 @@
 	};
 	
 	Board.prototype.init = function () {
+	  this.score = 0;
 	  var seed = Math.floor(Math.random() * 6.9999999);
 	  var nextBlock = Block.BLOCKS[seed];
 	
@@ -323,6 +331,7 @@
 	};
 	
 	Board.prototype.spawnBlock = function () {
+	  this.score += 100;
 	  var seed = Math.round(Math.random() * 7);
 	  var nextBlock = Block.BLOCKS[seed];
 	  this.playBlock = $.extend({}, this.nextBlock);
@@ -434,6 +443,7 @@
 	      linesToDelete.push(y);
 	    }
 	  }
+	  this.score += (500 * linesToDelete.length) * linesToDelete.length;
 	
 	  // DELETE ROWS, MOVE ABOVE ROWS
 	  linesToDelete.forEach(function(lineYValue) {

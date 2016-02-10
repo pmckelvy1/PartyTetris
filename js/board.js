@@ -12,6 +12,7 @@ var Board = function () {
 };
 
 Board.prototype.init = function () {
+  this.score = 0;
   var seed = Math.floor(Math.random() * 6.9999999);
   var nextBlock = Block.BLOCKS[seed];
 
@@ -64,6 +65,7 @@ Board.prototype.canSpawnBlock = function () {
 };
 
 Board.prototype.spawnBlock = function () {
+  this.score += 100;
   var seed = Math.round(Math.random() * 7);
   var nextBlock = Block.BLOCKS[seed];
   this.playBlock = $.extend({}, this.nextBlock);
@@ -175,6 +177,7 @@ Board.prototype.deleteRows = function () {
       linesToDelete.push(y);
     }
   }
+  this.score += (500 * linesToDelete.length) * linesToDelete.length;
 
   // DELETE ROWS, MOVE ABOVE ROWS
   linesToDelete.forEach(function(lineYValue) {
