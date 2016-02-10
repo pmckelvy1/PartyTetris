@@ -190,13 +190,13 @@
 	      this.board.playBlock.turn();
 	    break;
 	    case 39: //right = move right
-	      this.board.playBlock.move([1,0]);
+	      this.board.move([1,0]);
 	    break;
 	    case 40: //down = land
-	      // SPEED UP GAME
+	      this.board.move([0,1]);
 	    break;
 	    case 37: //left = move left
-	      this.board.playBlock.move([-1,0]);
+	      this.board.move([-1,0]);
 	    break;
 	    case 32: //spacebar = hold block
 	      // SWAP HOLDBLOCK AND PLAYBLOCK
@@ -243,7 +243,7 @@
 	// willLand
 	
 	Board.prototype.step = function () {
-	  if (this.canDropOne(this.playBlock)) {
+	  if (this.canMove(this.playBlock, [0,1])) {
 	    this.playBlock.dropOne();
 	  } else {
 	    this.spawnBlock();
@@ -259,7 +259,7 @@
 	  testBlock.putInPlay();
 	  var canSpawnBlock = true;
 	  testBlock.move([0,-1]);
-	  if (!this.canDropOne(testBlock)) {
+	  if (!this.canMove(testBlock, [0,1])) {
 	    canSpawnBlock = false;
 	  }
 	  return canSpawnBlock;
@@ -287,16 +287,16 @@
 	  delete this.blocks[id];
 	};
 	
-	Board.prototype.canDropOne = function (block) {
-	  var canDropOne = true;
+	Board.prototype.canMove = function (block, dir) {
+	  var canMove = true;
 	  var testCoords = block.coords.map(function(coord) {
 	    return coord.slice();
 	  });
-	  testCoords = Coords.moveCoords(testCoords, [0, 1]);
+	  testCoords = Coords.moveCoords(testCoords, dir);
 	
 	  // TEST FOR OUT OF BOUNDS
 	  if (Coords.outOfBounds(testCoords)) {
-	    canDropOne = false;
+	    canMove = false;
 	  };
 	
 	  // TEST FOR LANDED ON BLOCK
@@ -304,10 +304,16 @@
 	  testCoords.forEach(function(coord) {
 	    id = coord[0] * 100 + coord[1];
 	    if (this.blocks[id]) {
-	      canDropOne = false;
+	      canMove = false;
 	    }
 	  }.bind(this));
-	  return canDropOne;
+	  return canMove;
+	};
+	
+	Board.prototype.move = function (dir) {
+	  if (this.canMove(this.playBlock, dir)) {
+	    this.playBlock.move(dir);
+	  }
 	};
 	
 	module.exports = Board;
@@ -347,16 +353,7 @@
 	};
 	
 	Block.prototype.move = function (dir) {
-	  if (this.canMove(dir)) {
-	    this.coords = Coords.moveCoords(this.coords, dir);
-	  }
-	};
-	
-	Block.prototype.canMove = function (dir) {
-	  var canMove = true;
-	  var testCoords = this.coords.slice();
-	  testCoords = Coords.moveCoords(testCoords, dir);
-	  return !Coords.outOfBounds(testCoords);
+	  this.coords = Coords.moveCoords(this.coords, dir);
 	};
 	
 	Block.prototype.turn = function () {

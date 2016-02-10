@@ -28,16 +28,7 @@ Block.prototype.dropOne = function () {
 };
 
 Block.prototype.move = function (dir) {
-  if (this.canMove(dir)) {
-    this.coords = Coords.moveCoords(this.coords, dir);
-  }
-};
-
-Block.prototype.canMove = function (dir) {
-  var canMove = true;
-  var testCoords = this.coords.slice();
-  testCoords = Coords.moveCoords(testCoords, dir);
-  return !Coords.outOfBounds(testCoords);
+  this.coords = Coords.moveCoords(this.coords, dir);
 };
 
 Block.prototype.turn = function () {

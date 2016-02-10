@@ -29,7 +29,7 @@ Board.prototype.init = function () {
 // willLand
 
 Board.prototype.step = function () {
-  if (this.canDropOne(this.playBlock)) {
+  if (this.canMove(this.playBlock, [0,1])) {
     this.playBlock.dropOne();
   } else {
     this.spawnBlock();
@@ -45,7 +45,7 @@ Board.prototype.canSpawnBlock = function () {
   testBlock.putInPlay();
   var canSpawnBlock = true;
   testBlock.move([0,-1]);
-  if (!this.canDropOne(testBlock)) {
+  if (!this.canMove(testBlock, [0,1])) {
     canSpawnBlock = false;
   }
   return canSpawnBlock;
@@ -73,16 +73,16 @@ Board.prototype.deleteBlock = function (coord) {
   delete this.blocks[id];
 };
 
-Board.prototype.canDropOne = function (block) {
-  var canDropOne = true;
+Board.prototype.canMove = function (block, dir) {
+  var canMove = true;
   var testCoords = block.coords.map(function(coord) {
     return coord.slice();
   });
-  testCoords = Coords.moveCoords(testCoords, [0, 1]);
+  testCoords = Coords.moveCoords(testCoords, dir);
 
   // TEST FOR OUT OF BOUNDS
   if (Coords.outOfBounds(testCoords)) {
-    canDropOne = false;
+    canMove = false;
   };
 
   // TEST FOR LANDED ON BLOCK
@@ -90,10 +90,16 @@ Board.prototype.canDropOne = function (block) {
   testCoords.forEach(function(coord) {
     id = coord[0] * 100 + coord[1];
     if (this.blocks[id]) {
-      canDropOne = false;
+      canMove = false;
     }
   }.bind(this));
-  return canDropOne;
+  return canMove;
+};
+
+Board.prototype.move = function (dir) {
+  if (this.canMove(this.playBlock, dir)) {
+    this.playBlock.move(dir);
+  }
 };
 
 module.exports = Board;

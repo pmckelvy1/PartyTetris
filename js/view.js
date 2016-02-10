@@ -132,13 +132,13 @@ View.prototype.handleKeyEvent = function (e) {
       this.board.playBlock.turn();
     break;
     case 39: //right = move right
-      this.board.playBlock.move([1,0]);
+      this.board.move([1,0]);
     break;
     case 40: //down = land
-      // SPEED UP GAME
+      this.board.move([0,1]);
     break;
     case 37: //left = move left
-      this.board.playBlock.move([-1,0]);
+      this.board.move([-1,0]);
     break;
     case 32: //spacebar = hold block
       // SWAP HOLDBLOCK AND PLAYBLOCK
