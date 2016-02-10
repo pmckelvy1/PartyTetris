@@ -69,15 +69,9 @@
 	  this.$view = $viewEl;
 	  this.setupGrid(Board.WIDTH, Board.HEIGHT);
 	  this.bindKeyEvents();
-	  this.gameLoopMacro = setInterval(function() {
-	    if (this.gameLoopMicro) {
-	      clearInterval(this.gameLoopMicro);
-	    }
-	    this.gameStepMacro();
-	    this.gameLoopMicro = setInterval(function () {
-	      this.render();
-	    }.bind(this), 60)
-	  }.bind(this), Game_SPEED);
+	  this.gameOverBool = false;
+	  this.stepCounter = 0;
+	  this.gameLoopMacro();
 	};
 	
 	
@@ -98,17 +92,29 @@
 	// speedUp
 	// slowDown
 	// gameStep
+	View.prototype.gameLoopMacro = function() {
+	  this.stepCounter += 1;
+	  if (this.stepCounter >= 50) {
+	    this.gameStepMacro();
+	    this.stepCounter = 0;
+	  }
+	  this.render();
+	  if (!this.gameOverBool) {
+	    window.requestAnimationFrame(this.gameLoopMacro.bind(this));
+	  }
+	};
 	
 	View.prototype.gameStepMacro = function () {
 	  this.board.step();
 	  if (this.board.gameOver()) {
+	    console.log('gameover');
+	    debugger
 	    this.gameOver();
 	  }
 	};
 	
 	View.prototype.gameOver = function () {
-	  clearInterval(this.gameLoopMicro);
-	  clearInterval(this.gameLoopMacro);
+	  this.gameOverBool = true;
 	}
 	
 	View.prototype.setupGrid = function (width, height) {
@@ -130,8 +136,7 @@
 	};
 	
 	View.prototype.renderBlocks = function () {
-	  this.$view.find(".block").removeClass();
-	  this.$view.find(".block").addClass(".grid-point");
+	  $().removeClass();
 	  var gridId;
 	  var gridPoint;
 	  var klass;
@@ -193,6 +198,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(3);
+	var Coords = __webpack_require__(4);
 	
 	var Board = function () {
 	  this.playBlock = {};
@@ -222,7 +228,7 @@
 	// willLand
 	
 	Board.prototype.step = function () {
-	  if (this.playBlock.canDropOne()) {
+	  if (this.canDropOne()) {
 	    this.playBlock.dropOne();
 	  } else {
 	    this.spawnBlock();
@@ -237,8 +243,8 @@
 	  var testBlock = $.extend({}, this.nextBlock);
 	  testBlock.putInPlay();
 	  var canSpawnBlock = true;
-	  testBlock.move([0,-1]);
-	  if (!testBlock.canDropOne()) {
+	  testBlock.move([0,1]);
+	  if (!this.canDropOne()) {
 	    canSpawnBlock = false;
 	  }
 	  return canSpawnBlock;
@@ -264,6 +270,29 @@
 	Board.prototype.deleteBlock = function (coord) {
 	  var id = coord[0] * 100 + coord[1];
 	  delete this.blocks[id];
+	};
+	
+	Board.prototype.canDropOne = function () {
+	  var canDropOne = true;
+	  var testCoords = this.playBlock.coords.map(function(coord) {
+	    return coord.slice();
+	  });
+	  testCoords = Coords.moveCoords(testCoords, [0, 1]);
+	
+	  // TEST FOR OUT OF BOUNDS
+	  if (Coords.outOfBounds(testCoords)) {
+	    canDropOne = false;
+	  };
+	
+	  // TEST FOR LANDED ON BLOCK
+	  var id;
+	  testCoords.forEach(function(coord) {
+	    id = coord[0] * 100 + coord[1];
+	    if (this.blocks[id]) {
+	      canDropOne = false;
+	    }
+	  }.bind(this));
+	  return canDropOne;
 	};
 	
 	module.exports = Board;
@@ -300,32 +329,6 @@
 	  this.coords = this.coords.map(function (coord) {
 	    return Coords.addCoords(coord, [0, 1]);
 	  })
-	};
-	
-	Block.prototype.canDropOne = function () {
-	  var canDropOne = true;
-	  var testCoords = this.coords.map(function(coord) {
-	    return coord.slice();
-	  });
-	  testCoords = Coords.moveCoords(testCoords, [0, 1]);
-	
-	  // TEST FOR OUT OF BOUNDS
-	  if (Coords.outOfBounds(testCoords)) {
-	    canDropOne = false;
-	  };
-	
-	  // TEST FOR LANDED ON BLOCK
-	  var $gridPoint;
-	  var id;
-	  testCoords.forEach(function(coord) {
-	    id = coord[0] * 100 + coord[1];
-	    id = '#' + id;
-	    $gridPoint = $(id);
-	    if ($gridPoint.hasClass('block')) {
-	      canDropOne = false;
-	    }
-	  }.bind(this));
-	  return canDropOne;
 	};
 	
 	Block.prototype.move = function (dir) {
@@ -456,9 +459,9 @@
 	Coords.outOfBounds = function (coords) {
 	  var outOfBounds = false;
 	  coords.forEach(function (coord) {
-	    if (coord[0] >= Board.HEIGHT) {
+	    if (coord[0] >= Board.WIDTH) {
 	      outOfBounds = true;
-	    } else if (coord[1] >= Board.WIDTH) {
+	    } else if (coord[1] >= Board.HEIGHT) {
 	      outOfBounds = true;
 	    } else if (coord[0] < 0) {
 	      outOfBounds = true;

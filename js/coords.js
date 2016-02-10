@@ -28,9 +28,9 @@ Coords.equals = function (coord1, coord2) {
 Coords.outOfBounds = function (coords) {
   var outOfBounds = false;
   coords.forEach(function (coord) {
-    if (coord[0] >= Board.HEIGHT) {
+    if (coord[0] >= Board.WIDTH) {
       outOfBounds = true;
-    } else if (coord[1] >= Board.WIDTH) {
+    } else if (coord[1] >= Board.HEIGHT) {
       outOfBounds = true;
     } else if (coord[0] < 0) {
       outOfBounds = true;

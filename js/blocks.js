@@ -27,32 +27,6 @@ Block.prototype.dropOne = function () {
   })
 };
 
-Block.prototype.canDropOne = function () {
-  var canDropOne = true;
-  var testCoords = this.coords.map(function(coord) {
-    return coord.slice();
-  });
-  testCoords = Coords.moveCoords(testCoords, [0, 1]);
-
-  // TEST FOR OUT OF BOUNDS
-  if (Coords.outOfBounds(testCoords)) {
-    canDropOne = false;
-  };
-
-  // TEST FOR LANDED ON BLOCK
-  var $gridPoint;
-  var id;
-  testCoords.forEach(function(coord) {
-    id = coord[0] * 100 + coord[1];
-    id = '#' + id;
-    $gridPoint = $(id);
-    if ($gridPoint.hasClass('block')) {
-      canDropOne = false;
-    }
-  }.bind(this));
-  return canDropOne;
-};
-
 Block.prototype.move = function (dir) {
   if (this.canMove(dir)) {
     this.coords = Coords.moveCoords(this.coords, dir);

@@ -11,15 +11,9 @@ var View = function ($viewEl) {
   this.$view = $viewEl;
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
   this.bindKeyEvents();
-  this.gameLoopMacro = setInterval(function() {
-    if (this.gameLoopMicro) {
-      clearInterval(this.gameLoopMicro);
-    }
-    this.gameStepMacro();
-    this.gameLoopMicro = setInterval(function () {
-      this.render();
-    }.bind(this), 60)
-  }.bind(this), Game_SPEED);
+  this.gameOverBool = false;
+  this.stepCounter = 0;
+  this.gameLoopMacro();
 };
 
 
@@ -40,17 +34,29 @@ var View = function ($viewEl) {
 // speedUp
 // slowDown
 // gameStep
+View.prototype.gameLoopMacro = function() {
+  this.stepCounter += 1;
+  if (this.stepCounter >= 50) {
+    this.gameStepMacro();
+    this.stepCounter = 0;
+  }
+  this.render();
+  if (!this.gameOverBool) {
+    window.requestAnimationFrame(this.gameLoopMacro.bind(this));
+  }
+};
 
 View.prototype.gameStepMacro = function () {
   this.board.step();
   if (this.board.gameOver()) {
+    console.log('gameover');
+    debugger
     this.gameOver();
   }
 };
 
 View.prototype.gameOver = function () {
-  clearInterval(this.gameLoopMicro);
-  clearInterval(this.gameLoopMacro);
+  this.gameOverBool = true;
 }
 
 View.prototype.setupGrid = function (width, height) {
@@ -72,8 +78,7 @@ View.prototype.render = function () {
 };
 
 View.prototype.renderBlocks = function () {
-  this.$view.find(".block").removeClass();
-  this.$view.find(".block").addClass(".grid-point");
+  $().removeClass();
   var gridId;
   var gridPoint;
   var klass;

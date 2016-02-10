@@ -11,8 +11,11 @@ ul {
   list-style: none;
 }
 
-.gridpoint {
+.grid-point {
+  display: block;
   background: yellow;
+  height: 50px;
+  width: 50px;
 }
 
 .tetris-game {
