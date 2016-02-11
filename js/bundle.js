@@ -151,17 +151,6 @@
 	  this.nextLevelValue *= 2;
 	  this.renderLevelUp();
 	};
-	// View.prototype.gameLoopMacro = function() {
-	//   this.stepCounter += 1;
-	//   if (this.stepCounter >= 50) {
-	//     this.gameStepMacro();
-	//     this.stepCounter = 0;
-	//   }
-	//   this.render();
-	//   if (!this.gameOverBool) {
-	//     window.requestAnimationFrame(this.gameLoopMacro.bind(this));
-	//   }
-	// };
 	
 	View.prototype.gameStepMacro = function () {
 	  if (this.board.gameOver()) {
