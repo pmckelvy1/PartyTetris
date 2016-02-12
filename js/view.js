@@ -23,14 +23,16 @@ var View = function ($viewEl) {
   this.$holdBlock = $('.hold-block');
   this.$controls = $('.controls');
   this.$playAgain = $('.play-again');
+  this.$gameStart = $('.game-start');
+  this.$info = $('.info');
   this.nextLevelValue = 1000;
   this.levelSpeedValue = 10;
   this.setupGrid(Board.WIDTH, Board.HEIGHT);
   this.setupBoxes(6, 6);
   this.bindKeyEvents();
   this.gameOverBool = false;
+  this.gameStart = false;
   this.stepCounter = 0;
-  this.gameLoopMacro();
 };
 
 
@@ -82,6 +84,14 @@ View.prototype.init = function () {
 View.prototype.reset = function () {
   this.$gameOver.css('display', 'none');
   this.$playAgain.css('display', 'none');
+  this.board.init();
+  this.init();
+  this.gameLoopMacro();
+};
+
+View.prototype.gameStartFn = function () {
+  this.gameStart = true;
+  this.$gameStart.css('display', 'none');
   this.board.init();
   this.init();
   this.gameLoopMacro();
@@ -148,6 +158,7 @@ View.prototype.render = function () {
   this.renderBorder();
   this.renderControls();
   this.renderLevel();
+  this.renderInfo();
 };
 
 View.prototype.renderBlocks = function () {
@@ -236,6 +247,10 @@ View.prototype.renderLevelUp = function () {
   }.bind(this), 1500);
 };
 
+View.prototype.renderInfo = function () {
+  this.$info.css('color', Tetris.Util.getColor());
+};
+
 View.prototype.bindKeyEvents = function () {
   $(document).keydown(this.handleKeyEvent.bind(this));
 };
@@ -261,6 +276,8 @@ View.prototype.handleKeyEvent = function (e) {
     case 13:
       if (this.gameOverBool) {
         this.reset();
+      } else if (!this.gameStart) {
+        this.gameStartFn();
       }
       break;
   }
