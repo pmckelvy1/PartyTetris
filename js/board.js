@@ -55,7 +55,7 @@ Board.prototype.gameOver = function () {
 };
 
 Board.prototype.canSpawnBlock = function () {
-  var testBlock = $.extend({}, this.nextBlock);
+  var testBlock = $l.extend({}, this.nextBlock);
   testBlock.putInPlay();
   var canSpawnBlock = true;
   testBlock.move([0,-1]);
@@ -67,9 +67,9 @@ Board.prototype.canSpawnBlock = function () {
 
 Board.prototype.spawnBlock = function () {
   this.score += 100;
-  var seed = Math.round(Math.random() * 7);
+  var seed = Math.round(Math.random() * 6.9999999);
   var nextBlock = Block.BLOCKS[seed];
-  this.playBlock = $.extend({}, this.nextBlock);
+  this.playBlock = $l.extend({}, this.nextBlock);
   this.playBlock.putInPlay();
   var color = Util.selectRandomColor();
   this.nextBlock = new nextBlock(color);

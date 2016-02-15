@@ -46,9 +46,9 @@
 
 	var View = __webpack_require__(1);
 	
-	$(function () {
-	  var $viewEl = $('.tetris-game');
-	  var tetrisView = new View($viewEl);
+	$l(function () {
+	  var $lviewEl = $l('.tetris-game');
+	  var tetrisView = new View($lviewEl);
 	});
 
 
@@ -66,23 +66,23 @@
 	
 	var Tetris = window.Tetris = (window.Tetris || {});
 	
-	var View = function ($viewEl) {
+	var View = function ($lviewEl) {
 	  this.board = new Board();
-	  this.$view = $viewEl;
-	  this.$title = $('.title');
-	  this.$scoreBox = $('.score-box');
-	  this.$score = $('.score');
-	  this.$gameOver = $('.game-over');
-	  this.$tetrisGame = $('.tetris-game');
-	  this.$levelUp = $('.level-up');
-	  this.$levelNum = $('.level-num');
-	  this.$level = $('.level');
-	  this.$nextBlock = $('.next-block');
-	  this.$holdBlock = $('.hold-block');
-	  this.$controls = $('.controls');
-	  this.$playAgain = $('.play-again');
-	  this.$gameStart = $('.game-start');
-	  this.$info = $('.info');
+	  this.$lview = $lviewEl;
+	  this.$ltitle = $l('.title');
+	  this.$lscoreBox = $l('.score-box');
+	  this.$lscore = $l('.score');
+	  this.$lgameOver = $l('.game-over');
+	  this.$ltetrisGame = $l('.tetris-game');
+	  this.$llevelUp = $l('.level-up');
+	  this.$llevelNum = $l('.level-num');
+	  this.$llevel = $l('.level');
+	  this.$lnextBlock = $l('.next-block');
+	  this.$lholdBlock = $l('.hold-block');
+	  this.$lcontrols = $l('.controls');
+	  this.$lplayAgain = $l('.play-again');
+	  this.$lgameStart = $l('.game-start');
+	  this.$linfo = $l('.info');
 	  this.nextLevelValue = 1000;
 	  this.levelSpeedValue = 10;
 	  this.setupGrid(Board.WIDTH, Board.HEIGHT);
@@ -140,8 +140,8 @@
 	};
 	
 	View.prototype.reset = function () {
-	  this.$gameOver.css('display', 'none');
-	  this.$playAgain.css('display', 'none');
+	  this.$lgameOver.css('display', 'none');
+	  this.$lplayAgain.css('display', 'none');
 	  this.board.init();
 	  this.init();
 	  this.gameLoopMacro();
@@ -149,14 +149,13 @@
 	
 	View.prototype.gameStartFn = function () {
 	  this.gameStart = true;
-	  this.$gameStart.css('display', 'none');
+	  this.$lgameStart.css('display', 'none');
 	  this.board.init();
 	  this.init();
 	  this.gameLoopMacro();
 	};
 	
 	View.prototype.levelUp = function () {
-	  console.log('levelup');
 	  this.levelSpeedValue -= 1;
 	  this.nextLevelValue *= 2;
 	  this.renderLevelUp();
@@ -164,7 +163,6 @@
 	
 	View.prototype.gameStepMacro = function () {
 	  if (this.board.gameOver()) {
-	    console.log('gameover');
 	    this.gameOver();
 	  } else {
 	    this.board.step();
@@ -176,36 +174,42 @@
 	};
 	
 	View.prototype.setupGrid = function (width, height) {
-	  var x, y, $ul, $li, id;
+	  var x, y, $lul, $lli, id;
 	  for (x = 0; x < width; x++) {
-	    $ul = $("<ul>").addClass("column group");
+	    $lul = $l("<ul>");
+	    $lul.addClass("column group");
 	    for (y = 0; y < height; y++) {
-	      $li = $("<li>").addClass("grid-point");
-	      id = x * 100 + y;
-	      $li.attr('id', id);
-	      $ul.append($li);
+	      $lli = $l("<li>");
+	      $lli.addClass("grid-point");
+	      id = 's' + (x * 100 + y);
+	      $lli.attr('id', id);
+	      $lul.append($lli);
 	    }
-	    this.$view.append($ul);
+	    this.$lview.append($lul);
 	  }
 	};
 	
 	View.prototype.setupBoxes = function (width, height) {
-	  var x, y, $ul1, $ul2, $li1, $li2, id1, id2;
+	  var x, y, $lul1, $lul2, $lli1, $lli2, id1, id2;
 	  for (x = 2; x < width + 2; x++) {
-	    $ul1 = $("<ul>").addClass("group");
-	    $ul2 = $("<ul>").addClass("group");
+	    $lul1 = $l("<ul>");
+	    $lul1.addClass("group");
+	    $lul2 = $l("<ul>");
+	    $lul2.addClass("group");
 	    for (y = 0; y < height; y++) {
-	      $li1 = $("<li>").addClass("grid-point");
-	      $li2 = $("<li>").addClass("grid-point");
+	      $lli1 = $l("<li>");
+	      $lli1.addClass("grid-point");
+	      $lli2 = $l("<li>");
+	      $lli2.addClass("grid-point");
 	      id1 = 'nb' + (y * 100 + x);
 	      id2 = 'hb' + (y * 100 + x);
-	      $li1.attr('id', id1);
-	      $li2.attr('id', id2);
-	      $ul1.append($li1);
-	      $ul2.append($li2);
+	      $lli1.attr('id', id1);
+	      $lli2.attr('id', id2);
+	      $lul1.append($lli1);
+	      $lul2.append($lli2);
 	    }
-	    this.$nextBlock.append($ul1);
-	    this.$holdBlock.append($ul2);
+	    this.$lnextBlock.append($lul1);
+	    this.$lholdBlock.append($lul2);
 	  }
 	};
 	
@@ -220,16 +224,17 @@
 	};
 	
 	View.prototype.renderBlocks = function () {
-	  $('.block').removeClass('block');
-	  $('.grid-point').css('background', '#000');
+	  $l('.block').removeClass('block');
+	  $l('.grid-point').css('background', '#000');
 	  var gridId;
 	  var gridPoint;
 	  var klass;
 	  for (var id in this.board.blocks) {
-	    gridId = '#' + id;
+	    gridId = '#s' + id;
 	    klass = 'block';
-	    this.$view.find(gridId).addClass(klass)
-	      .css('background', this.board.blocks[id].color);
+	    var blockEl = this.$lview.find(gridId);
+	    blockEl.addClass(klass);
+	    blockEl.css('background', this.board.blocks[id].color);
 	  }
 	  this.renderPlayBlock();
 	  this.renderNextBlock();
@@ -237,80 +242,85 @@
 	};
 	
 	View.prototype.renderTitle = function () {
-	  this.$title.css('color', Tetris.Util.getColor());
+	  this.$ltitle.css('color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderPlayBlock = function () {
 	  this.board.playBlock.coords.forEach(function (coord) {
 	    var id = coord[0] * 100 + coord[1];
-	    var gridId = '#' + id;
+	    var gridId = '#s' + id;
 	    var klass = 'grid-point block';
-	    this.$view.find(gridId).addClass(klass)
-	      .css('background', this.board.playBlock.color);
+	    var blockEl = this.$lview.find(gridId);
+	    blockEl.addClass(klass);
+	    blockEl.css('background', this.board.playBlock.color);
 	  }.bind(this));
 	};
 	
 	View.prototype.renderNextBlock = function () {
 	  var id;
-	  this.$nextBlock.find('li').css('background', '#000');
+	  this.$lnextBlock.find('li').css('background', '#000');
 	  var klass = 'grid-point block';
 	  this.board.nextBlock.spawnCoords.forEach(function (coord) {
 	    id = '#nb' + (coord[1] * 100 + coord[0]);
-	    this.$nextBlock.find(id).addClass(klass)
-	      .css('background', this.board.nextBlock.color);
+	    var blockEl = this.$lnextBlock.find(id)
+	    blockEl.addClass(klass);
+	    blockEl.css('background', this.board.nextBlock.color);
 	  }.bind(this));
 	};
 	
 	View.prototype.renderHoldBlock = function () {
 	  var id;
-	  this.$holdBlock.find('li').css('background', '#000');
+	  this.$lholdBlock.find('li').css('background', '#000');
 	  var klass = 'grid-point block';
 	  this.board.holdBlock.spawnCoords.forEach(function (coord) {
 	    id = '#hb' + (coord[1] * 100 + coord[0]);
-	    this.$holdBlock.find(id).addClass(klass)
-	      .css('background', this.board.holdBlock.color);
+	    var blockEl = this.$lholdBlock.find(id);
+	    blockEl.addClass(klass);
+	    blockEl.css('background', this.board.holdBlock.color);
 	  }.bind(this));
 	};
 	
 	View.prototype.renderScore = function () {
-	  this.$scoreBox.html(this.board.score);
-	  this.$scoreBox.css('color', Tetris.Util.getColor());
-	  this.$score.css('color', Tetris.Util.getColor());
+	  this.$lscoreBox.html(this.board.score);
+	  this.$lscoreBox.css('color', Tetris.Util.getColor());
+	  this.$lscore.css('color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderLevel = function () {
 	  var level = 11 - this.levelSpeedValue;
-	  this.$levelNum.html(level);
-	  this.$levelNum.css('color', Tetris.Util.getColor());
-	  this.$level.css('color', Tetris.Util.getColor());
+	  this.$llevelNum.html(level);
+	  this.$llevelNum.css('color', Tetris.Util.getColor());
+	  this.$llevel.css('color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderBorder = function () {
-	  this.$tetrisGame.css('border-color', Tetris.Util.getColor());
+	  this.$ltetrisGame.css('border-color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderControls = function () {
-	  this.$controls.find('.control').css('color', Tetris.Util.getColor());
+	  var controlsEl = this.$lcontrols.find('.control');
+	  controlsEl.css('color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.renderGameOver = function () {
-	  this.$gameOver.css('display', 'block');
-	  this.$playAgain.css('display', 'block');
+	  this.$lgameOver.css('display', 'block');
+	  this.$lplayAgain.css('display', 'block');
 	};
 	
 	View.prototype.renderLevelUp = function () {
-	  this.$levelUp.css('display', 'block');
+	  this.$llevelUp.css('display', 'block');
 	  setTimeout(function () {
-	    this.$levelUp.css('display', 'none');
+	    this.$llevelUp.css('display', 'none');
 	  }.bind(this), 1500);
 	};
 	
 	View.prototype.renderInfo = function () {
-	  this.$info.css('color', Tetris.Util.getColor());
+	  this.$linfo.css('color', Tetris.Util.getColor());
 	};
 	
 	View.prototype.bindKeyEvents = function () {
-	  $(document).keydown(this.handleKeyEvent.bind(this));
+	  var doc = $l(document);
+	  doc.on('keydown', this.handleKeyEvent.bind(this));
 	};
 	
 	View.prototype.handleKeyEvent = function (e) {
@@ -405,7 +415,7 @@
 	};
 	
 	Board.prototype.canSpawnBlock = function () {
-	  var testBlock = $.extend({}, this.nextBlock);
+	  var testBlock = $l.extend({}, this.nextBlock);
 	  testBlock.putInPlay();
 	  var canSpawnBlock = true;
 	  testBlock.move([0,-1]);
@@ -417,9 +427,9 @@
 	
 	Board.prototype.spawnBlock = function () {
 	  this.score += 100;
-	  var seed = Math.round(Math.random() * 7);
+	  var seed = Math.round(Math.random() * 6.9999999);
 	  var nextBlock = Block.BLOCKS[seed];
-	  this.playBlock = $.extend({}, this.nextBlock);
+	  this.playBlock = $l.extend({}, this.nextBlock);
 	  this.playBlock.putInPlay();
 	  var color = Util.selectRandomColor();
 	  this.nextBlock = new nextBlock(color);
