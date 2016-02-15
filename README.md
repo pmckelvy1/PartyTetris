@@ -9,4 +9,4 @@ PartyTetris is a an exciting take on the classic arcade game, built using HTML, 
 
 ## Details
 
-The logic of PartyTetris is handled in javascript.  The styling and is calculated and designed in CSS, and rendered in javascript using the jQuery library.  The color-wheel styling in particular is a custom javascript algorithm built to cycle through a specific set of colors continuously.
+The logic of PartyTetris is handled in javascript.  The styling is designed in CSS, and rendered in javascript using the jQuery library.  The color-wheel styling is a custom javascript algorithm built to cycle through a specific set of colors continuously, and attach to a block when it is dropped.
