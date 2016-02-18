@@ -211,7 +211,7 @@ ul {
 }
 
 .audio-player {
-  display: block;
+  display: none;
 }
 
 .next-block {
