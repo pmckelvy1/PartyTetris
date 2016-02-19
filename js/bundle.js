@@ -249,7 +249,7 @@
 	  this.board.playBlock.coords.forEach(function (coord) {
 	    var id = coord[0] * 100 + coord[1];
 	    var gridId = '#s' + id;
-	    var klass = 'grid-point block';
+	    var klass = 'block';
 	    var blockEl = this.$lview.find(gridId);
 	    blockEl.addClass(klass);
 	    blockEl.css('background', this.board.playBlock.color);
@@ -259,7 +259,7 @@
 	View.prototype.renderNextBlock = function () {
 	  var id;
 	  this.$lnextBlock.find('li').css('background', '#000');
-	  var klass = 'grid-point block';
+	  var klass = 'block';
 	  this.board.nextBlock.spawnCoords.forEach(function (coord) {
 	    id = '#nb' + (coord[1] * 100 + coord[0]);
 	    var blockEl = this.$lnextBlock.find(id)
@@ -271,7 +271,7 @@
 	View.prototype.renderHoldBlock = function () {
 	  var id;
 	  this.$lholdBlock.find('li').css('background', '#000');
-	  var klass = 'grid-point block';
+	  var klass = 'block';
 	  this.board.holdBlock.spawnCoords.forEach(function (coord) {
 	    id = '#hb' + (coord[1] * 100 + coord[0]);
 	    var blockEl = this.$lholdBlock.find(id);
