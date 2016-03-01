@@ -3,7 +3,7 @@
 
 PartyTetris is a an exciting take on the classic arcade game, built using HTML, CSS, and Javascript with jQueryLite.
 
-[jQueryLite](../../../jQueryLite) is a custom implementation of the jQuery library.
+[jQueryLite](../../../jQueryLite) is a light-weight DOM manipulation library that I wrote.
 
 ## <a href='http://pmckelvy1.github.io/PartyTetris/'>Play now!</a>
 
